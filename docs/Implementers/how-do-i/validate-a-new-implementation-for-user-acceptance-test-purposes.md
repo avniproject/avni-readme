@@ -104,7 +104,7 @@ next:
 * The user should be able to save, register the registration form, and proceed to the next registration form.
 * After Registering the individual/any other subject in the mobile app, sync the data and validate that the data is reflected in the web app
 * Register the individual/any other subject in the mobile app. Do not sync and validate that the data is not reflected in the web app.
-* Register the individual in the mobile app with the network off. Turn the network on, tap the sync icon at the top of the Home screen, and validate that the record appears in the web app.
+* With the network off, register an individual in the mobile app. Turn the network on, tap the sync icon at the top of the Home screen, and check whether the record appears in the web app.
 
 **6. Search Page:**
 
@@ -138,7 +138,7 @@ next:
 
 * If the user disables the auto refresh then the dashboard should not update the data on the dashboard automatically.
 
-* **Auto Sync,** if the user switches Disable Auto Sync off, new data should upload on its own within about an hour
+* **Auto Sync,** switch Disable Auto Sync off, save a new record, leave the app in the background with the network on, and check whether the record reaches the web app without anyone tapping the sync icon
 
 * If the user disables the auto sync then data should not be synced automatically.
 
