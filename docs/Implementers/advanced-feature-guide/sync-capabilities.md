@@ -32,7 +32,7 @@ The two Auto Sync rows apply only after the user has switched **Disable Auto Syn
 
 ## More about Auto Sync
 
-Background sync is off for every user by default. To turn it on, open More, tap the account name at the top (it says Edit Settings underneath), and switch **Disable Auto Sync** off. Until then, the app sends data when the user taps the sync icon at the top of the Home screen, and after login.
+Background sync is off for every user by default. To turn it on, open More, tap the account name at the top (it says Edit Settings underneath), and switch **Disable Auto Sync** off. Until then, the app sends data when the user taps the sync icon at the top of the Home screen.
 
 When a user has turned it on, the app syncs on its own, on a schedule:
 

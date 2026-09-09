@@ -24,7 +24,7 @@ There are few things to note before we start setting up fast sync.
 
 .Setting up fast sync is very easy and it requires an active internet connection. Existing users can go to "More -> Setup fast sync" and then click "Yes". This will take a while depending on the data in the device. This uploads the database file from the user's device to Avni storage as fast sync file for this catchment.
 
-The Setup fast sync item is not shown on devices using the new database, or when the organisation uses database encryption.
+The Setup fast sync item is not shown on devices using the new database.
 
 <Image title="fast sync.png" alt={568} align="center" src="https://files.readme.io/125e0b2-fast_sync.png">
   Fast sync setup option.
