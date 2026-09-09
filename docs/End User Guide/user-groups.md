@@ -70,7 +70,7 @@ When a user is assigned to 2 or more user groups, the union of permissions provi
 
 ![](https://files.readme.io/0540e63-image3.png)
 
-Refer to [Offline Report Cards and Custom Dashboards](doc:offline-reports) section for more details regarding this.
+Refer to [Offline Cards and Custom Dashboards](doc:copy-of-offline-report-cards-and-custom-dashboards) section for more details regarding this.
 
 ### Assign User Groups while creating Users
 

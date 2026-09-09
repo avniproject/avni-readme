@@ -34,7 +34,7 @@ The Data Entry App, as the name suggests, is used to view and enter data directl
 **Other unsupported features:**
 
 * [User subject type](https://avni.readme.io/docs/user-subject-types)
-* [Dashboards and report cards](https://avni.readme.io/docs/offline-reports)
+* [Dashboards and report cards](https://avni.readme.io/docs/copy-of-offline-report-cards-and-custom-dashboards)
 * [Drafts](https://avni.readme.io/docs/draft-save)
 * [Approval workflows](https://avni.readme.io/docs/approval-workflow)
 * [Vaccination checklist](https://avni.readme.io/docs/upload-checklist)
