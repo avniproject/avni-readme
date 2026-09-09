@@ -1541,7 +1541,7 @@ In many of the rules params db object is available to query the offline database
 
 **Realm Query Language Reference** - [https://www.mongodb.com/docs/realm/realm-query-language](https://www.mongodb.com/docs/realm/realm-query-language)
 
-On the new database, `params.db` is not a Realm instance. It is a proxy that answers `params.db.isSqlite === true` and offers the `exec*` methods described in [Writing report cards that work on the new database](#writing-report-cards-that-work-on-the-new-database-technical). Branch on `params.db.isSqlite` when a rule must run on both.
+On the new database, `params.db` is a different object. It is a proxy that answers `params.db.isSqlite === true` and offers the `exec*` methods described in [Writing report cards that work on the new database](#writing-report-cards-that-work-on-the-new-database-technical). Branch on `params.db.isSqlite` when a rule must run on both.
 
 
 ### Difference between filter and filtered
