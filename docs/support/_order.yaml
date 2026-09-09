@@ -1,3 +1,6 @@
 - configurations-from-backend
 - recreate-etl-schema-for-an-implementation
 - rule-failure-telemetry
+- which-database-is-this-device-on
+- data-missing-after-a-field-visit
+- a-moved-user-is-blocked
