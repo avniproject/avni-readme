@@ -26,7 +26,7 @@ Avni works completely in offline mode except during login and sync. The first ti
 | Auto Sync       | Upload           | Every hour     |
 | Auto Sync       | Download         | Every 12 hours |
 
-The two Auto Sync rows apply only after the user has switched **Disable Auto Sync** off. It is on by default.
+The two Auto Sync rows apply only after the user has switched **Disable Auto Sync** off. The Disable Auto Sync setting is on by default.
 
 <br/>
 

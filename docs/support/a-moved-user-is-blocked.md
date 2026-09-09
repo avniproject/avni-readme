@@ -2,7 +2,7 @@
 title: A moved user is blocked
 excerpt: ''
 deprecated: false
-hidden: false
+hidden: true
 metadata:
   title: ''
   description: ''

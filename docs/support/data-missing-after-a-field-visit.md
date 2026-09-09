@@ -12,7 +12,7 @@ next:
 ---
 ## Check whether they synced
 
-Background sync is off by default. Unless the user has switched **Disable Auto Sync** off in the app's Settings, the app sends data only when they tap the sync icon at the top of the Home screen.
+Background sync is off by default. Unless the user has switched **Disable Auto Sync** off (under More, by tapping the account name at the top), the app sends data only when they tap the sync icon at the top of the Home screen.
 
 If a user reports that records they saved are not on the server, first ask whether they have tapped the sync icon since saving.
 

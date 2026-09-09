@@ -2,7 +2,7 @@
 title: Offline Report Cards and Custom Dashboards
 excerpt: ''
 deprecated: true
-hidden: true
+hidden: false
 metadata:
   title: ''
   description: ''

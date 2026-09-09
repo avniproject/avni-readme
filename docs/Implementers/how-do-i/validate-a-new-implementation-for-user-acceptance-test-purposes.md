@@ -138,7 +138,7 @@ next:
 
 * If the user disables the auto refresh then the dashboard should not update the data on the dashboard automatically.
 
-* **Auto Sync,** switch Disable Auto Sync off, save a new record, leave the app in the background with the network on, and check whether the record reaches the web app without anyone tapping the sync icon
+* **Auto Sync,** switch **Disable Auto Sync** off, save a new record, leave the app in the background with the network on, and check whether the record reaches the web app without anyone tapping the sync icon
 
 * If the user disables the auto sync then data should not be synced automatically.
 

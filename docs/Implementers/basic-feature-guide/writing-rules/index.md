@@ -896,7 +896,7 @@ Say, 'common_otp' Glific message template is 'Your OTP for `{{1}}` is `{{2}}`. T
 
 ## Which database the organisation uses
 
-The app keeps its data in a database on the phone. A new database is being introduced. No organisation has been moved to it yet. Organisations will move one at a time. No schedule has been set.
+The app keeps its data in a database on the phone. A new database is being introduced. No organisation has been moved to it yet. The plan is to move organisations in small batches, smallest first. No schedule has been set.
 
 Support can tell which database a device is on. When an organisation is asked to prepare its report cards for the move, the section *Writing report cards that work on the new database* is the one to read.
 
@@ -1216,7 +1216,7 @@ Both fields are optional. Returning only `data` customises the PDF and leaves th
 
 ## Writing report cards that work on the new database (technical)
 
-On the new database, `params.db` is a proxy that carries `isSqlite = true` and a set of `exec*` methods that run SQL directly. On the current database `params.db` is the Realm instance and none of these exist. A card that must run on both branches on `params.db.isSqlite`.
+On the new database, `params.db` is a proxy that carries `isSqlite = true` and a set of `exec*` methods that run SQL directly. On the current database `params.db` is the Realm instance and none of these exist. A card that must run on both databases branches on `params.db.isSqlite`.
 
 ### The standard pattern: `execReport`
 
@@ -1356,7 +1356,7 @@ const n = (typeof xs.count === 'function') ? xs.count() : xs.length;  // Realm r
 return {primaryValue: n, lineListFunction: () => xs};
 ```
 
-The guard is needed because the two databases return different collection types. The second trap: a rule that ends in `.map(…)` or `.filter(cb)` has already turned the results into a plain array, so it has paid the loading cost before anything can help it. Keep filtering inside `.filtered(…)`.
+The guard is needed because the two databases return different collection types. A simple filter like the one above is translated to SQL on the new database. A filter the translator does not understand is run in JavaScript after the records are loaded, which brings the loading cost back. The second trap: a rule that ends in `.map(…)` or `.filter(cb)` has already turned the results into a plain array, so it has paid the loading cost before anything can help it. Keep filtering inside `.filtered(…)`.
 
 ## Accessing Address Level Properties :
 

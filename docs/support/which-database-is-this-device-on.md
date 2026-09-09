@@ -16,7 +16,7 @@ When a ticket mentions slowness, a missing card, or a sync problem, find out whi
 
 Ask the user to open **More**, scroll to the bottom, and send a screenshot of the block there. It has at least a **Server** line, a **Backend** line, a **Database Schema :** line and a **BuildVersion** line.
 
-* **Backend: realm** and the user is not in the **SQLite Migration** user group: the user was never moved. Nothing about the migration applies to this ticket.
+* **Backend: realm** and the user is not in the **SQLite Migration** user group: either the user was never moved, or they were moved and moved back. Ask whether they were ever in that group. If they were, treat the ticket as a moved-back user; see *A moved user is blocked*.
 * **Backend: realm** and the user is in the **SQLite Migration** user group: escalate with the screenshot, and say the user is in the group.
 * **Backend: sqlite**: the user has been moved. Note it on the ticket. The Database Schema number is a small number on the new database, not the large one seen on the old one.
 

@@ -16,9 +16,9 @@ next:
 ---
 > 📘 **My Dashboard is being retired.**
 >
-> My Dashboard is the built-in dashboard. It shows on the Home tab when no dashboard is marked **Primary** for the user's group. When one is, the Home tab shows the organisation's own dashboard instead. The built-in one is being retired. No removal release has been set.
+> My Dashboard is the built-in dashboard. It shows on the Home tab when no dashboard has **Is Primary** set for the user's group. When one has, the Home tab shows the organisation's own dashboard instead. The built-in one is being retired. No removal release has been set.
 >
-> **What to do now:** check that every user group in the organisation has a dashboard marked **Primary**, under User Groups in the admin screen. If the organisation has dashboards, assign one to each group and mark it Primary. If it has none, ask Avni support. The standard procedure for creating one is [here](doc:move-org-to-custom-dashboard-from-mydashboard) and runs on a test organisation first.
+> **What to do now:** check that every user group in the organisation has a dashboard with **Is Primary** set, under User Groups in the admin screen. If the organisation has dashboards, assign one to each group and set Is Primary on it. If it has none, ask Avni support. The standard procedure for creating one is [here](doc:move-org-to-custom-dashboard-from-mydashboard) and runs on a test organisation first.
 
 Avni allows the display of custom filter in **Search** and **My Dashboard filter** page. These settings are available within App designer. Filter settings are stored in organisation\_config table.  You can define filters for different subject types. Please refer to the table below for various options.
 
