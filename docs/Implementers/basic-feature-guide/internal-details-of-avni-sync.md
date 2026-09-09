@@ -126,7 +126,7 @@ Since release 3.36, there is now an automated sync mechanism. With this, entitie
 
 This setting is now on by default for every user, including newly created users, so automated sync does not run until the user or an admin switches **Disable Auto Sync** off. The user does this in the app under More, by tapping the account name at the top. The setting is stored per user and syncs to the server.
 
-#### How manual and background sync avoid running together
+#### How manual and background sync avoid running together (technical)
 
 As part of manual sync, the app first replaces the "background-sync" job with a "dummy sync" job, performs the manual sync, and then replaces the "dummy sync" job with the "background-sync" job again. In react-native-background-worker, scheduling a job with the same jobKey as an existing job replaces the old one, which is how background sync is kept from running in parallel with a manual sync; there is no way to cancel a job by name directly, and the job id is deliberately not stored.
 
