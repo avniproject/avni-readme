@@ -14,7 +14,7 @@ Avni supports adding **media content** (videos and images) to coded concepts thr
 Media content support to concept metadata enables:
 
 * Adding video and image references via "App Designer" 
-* Syncing of media files to field devices during sync
+* Automatic syncing of media files to field devices
 * Inline display of media content within forms
 * Offline access of the synced media files
 
@@ -49,7 +49,7 @@ Media content support to concept metadata enables:
 4. Upload the desired media file(s)
 5. Save the concept
 
-Media files are downloaded to field devices during sync and become available offline.
+Media files are automatically synced to field devices during the regular sync process and become available offline.
 
 > <Image align="center" alt="Concept editor showing media upload fields for image and video" border={false} src="https://files.readme.io/f73a540a8823356f68a3f751f8a7a56dbbb70d832816e815a3185a0746c9f293-ConceptsWithMediaEdit.png" />
 
