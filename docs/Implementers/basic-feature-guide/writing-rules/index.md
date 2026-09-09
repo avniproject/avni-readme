@@ -896,13 +896,11 @@ Say, 'common_otp' Glific message template is 'Your OTP for `{{1}}` is `{{2}}`. T
 
 ## Which database the organisation uses
 
-The app keeps its data in a database on the phone. Today every organisation uses the database the app has always used. A new database is being introduced. Organisations will move to it one at a time. No schedule has been set. Until an organisation is moved, nothing in this guide changes for it.
+The app keeps its data in a database on the phone. A new database is being introduced. No organisation has been moved to it yet. Organisations will move one at a time. No schedule has been set.
 
 Support can tell which database a device is on. When an organisation is asked to prepare its report cards for the move, the section *Writing report cards that work on the new database* is the one to read.
 
 ## 14. Dashboard Card Rule
-
-The examples in this section use the current database's query language.
 
 The shape of dashboard card rule
 
@@ -1520,6 +1518,8 @@ return output;
 <br />
 
 ## Using params.db object when writing rules
+
+The examples in this section use the current database's query language.
 
 In many of the rules params db object is available to query the offline database directly. The db object is an instance of type [Realm](https://www.mongodb.com/docs/realm-sdks/js/latest/classes/Realm-1.html) on which [objects](https://www.mongodb.com/docs/realm-sdks/js/latest/classes/Realm-1.html#objects) is first method that will get called. This returns [Realm Results](https://www.mongodb.com/docs/realm-sdks/js/latest/classes/Results.html) instance, on which one may further call the [filtered](https://www.mongodb.com/docs/realm-sdks/js/latest/classes/Results.html#filtered) method one or more times each time returning realm results. Realm result a list with each item being of type (model object's schema name) originally passed in objects method.
 
