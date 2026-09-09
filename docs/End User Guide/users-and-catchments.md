@@ -106,7 +106,7 @@ Once the above-provided prerequisites have been created successfully, we can pro
    2. Track location - Switches on visit location tracking on the Field App
    3. Beneficiary mode - Enables the Beneficiary mode - a limited mode that allows beneficiaries to use the Field App
    4. Disable dashboard auto refresh - Disables Auto-refresh of MyDashboard of the Field App. Use if the dashboard is slow to refresh
-   5. Disable auto sync - Disables automatic background sync. Use it if you want to trigger sync only manually
+   5. Disable auto sync - On by default for every user, including new users, so the app does not sync in the background. Switch it off here to allow background sync for this user. The user can also do this in the app under More, by tapping the account name at the top and switching **Disable Auto Sync** off
    6. Register + Enrol - Adds extra quick menu items on the Register tab to register and enrol to programs in a single flow
    7. Enable Call Masking - Enables Exotel call masking for the user
    8. Identifier Prefix - Identifier prefix for ids generated for this user. See[ documentation](https://avni.readme.io/docs/creating-identifiers) for more information

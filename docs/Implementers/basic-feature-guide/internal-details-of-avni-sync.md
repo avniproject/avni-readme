@@ -124,6 +124,8 @@ Media content are taken from the MediaQueue and uploaded to S3. Once this is don
 
 Since release 3.36, there is now an automated sync mechanism. With this, entities are synced automatically on a timed basis. This happens once every hour, only if a sync was not run within the last half an hour. Normally, this only includes uploading entities that have been changed on the client. If it has been more than 12 hours since we have had a full sync, then the app does a full sync instead. From release 4.0.0, automated sync can be disabled from user settings in both field app and  webapp.
 
+This setting is now on by default for every user, including newly created users, so automated sync does not run until the user or an admin switches **Disable Auto Sync** off. The user does this in the app under More, by tapping the account name at the top. The setting is stored per user and syncs to the server.
+
 ### Sync from a server's perspective
 
 #### Sync strategy
