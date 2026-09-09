@@ -2,7 +2,7 @@
 title: A moved user is blocked
 excerpt: ''
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   title: ''
   description: ''
@@ -10,8 +10,6 @@ metadata:
 next:
   description: ''
 ---
-> 🚧 **This page publishes only after the platform team has signed off on it in writing.** Until then it is a draft.
-
 A user who has been moved to the new database and cannot work needs two things: the platform team told, and the phone made usable again. Do them in that order.
 
 ## 1. Escalate first
