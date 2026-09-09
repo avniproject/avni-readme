@@ -894,7 +894,15 @@ Say, 'common_otp' Glific message template is 'Your OTP for `{{1}}` is `{{2}}`. T
 }
 ```
 
+## Which database the organisation uses
+
+The app keeps its data in a database on the phone. Today every organisation uses the database the app has always used. A new database is being introduced. Organisations will move to it one at a time. No schedule has been set. Until an organisation is moved, nothing in this guide changes for it.
+
+Support can tell which database a device is on. When an organisation is asked to prepare its report cards for the move, the section *Writing report cards that work on the new database* is the one to read.
+
 ## 14. Dashboard Card Rule
+
+The examples in this section use the current database's query language.
 
 The shape of dashboard card rule
 
@@ -1208,6 +1216,150 @@ Both fields are optional. Returning only `data` customises the PDF and leaves th
 * When the Share rule throws, the failure is captured in the same way as other rule failures and the affected format falls back to its default; the field worker still sees a usable share screen.
 * The Share rule is invoked by both manual shares (Share button → Share as PDF / Share as Text) and auto-shares queued via a Work list updation rule. There is no separate rule for the two paths.
 
+## Writing report cards that work on the new database (technical)
+
+On the new database, `params.db` is a proxy that carries `isSqlite = true` and a set of `exec*` methods that run SQL directly. On the current database `params.db` is the Realm instance and none of these exist. A card that must run on both branches on `params.db.isSqlite`.
+
+### The standard pattern: `execReport`
+
+Return the count immediately and hand back the list only when the card is tapped:
+
+```javascript
+'use strict';
+({params, imports}) => {
+    if (params.db.isSqlite) {
+        const whereSql = `
+            FROM individual i
+            JOIN subject_type st ON st.uuid = i.subject_type_uuid
+            WHERE i.voided = 0
+            AND st.type = 'Person'
+        `;
+        return params.db.execReport(
+            'SELECT COUNT(*) ' + whereSql, [],
+            'SELECT i.uuid ' + whereSql, [],
+            'Individual'
+        );
+    }
+    // current database
+    return params.db.objects('Individual')
+        .filtered('voided = false AND subjectType.type = $0', 'Person');
+};
+```
+
+`execReport(countSql, countParams, listSql, listParams, schemaName)` returns `{primaryValue, lineListFunction}`. The count query runs at once; the list query and the loading of records run only when the user taps the card, at depth one (the record and what it points at, not its child lists).
+
+### The `exec*` methods
+
+All on `params.db`, present only when `params.db.isSqlite` is true.
+
+| Method | Returns | Use |
+|---|---|---|
+| `execReport(countSql, countParams, listSql, listParams, schemaName)` | `{primaryValue, lineListFunction}` | the report-card pattern |
+| `execCount(sql, params)` | number | a count with no line list |
+| `execQuery(sql, params)` | array of row objects | raw rows, nothing loaded |
+| `execCountEntities(schemaName, whereSql, params)` | number | a count with the table name filled in |
+| `execFindObservationValue(schemaName, entityUuid, conceptNameOrUuid)` | value or `null` | one observation on one record |
+
+### Tables and columns
+
+Names are snake_case forms of the Realm schema. Foreign keys carry the `_uuid` suffix. Dates are epoch milliseconds stored as integers. `voided` is `0` or `1`. `observations` is JSON text.
+
+| Realm | SQLite |
+|---|---|
+| `Individual` | `individual` |
+| `ProgramEnrolment` | `program_enrolment` |
+| `ProgramEncounter` | `program_encounter` |
+| `Encounter` | `encounter` |
+| `SubjectType` | `subject_type` |
+| `dateOfBirth` | `date_of_birth` |
+| `subjectType` (link) | `subject_type_uuid` |
+| `programEnrolment` (link) | `program_enrolment_uuid` |
+
+### Three worked patterns
+
+**Individuals enrolled in a programme**
+
+```javascript
+const whereSql = `
+    FROM individual i
+    JOIN program_enrolment pe ON pe.individual_uuid = i.uuid
+    JOIN program p ON p.uuid = pe.program_uuid
+    WHERE i.voided = 0 AND pe.voided = 0
+    AND pe.program_exit_date_time IS NULL
+    AND p.name = ?
+`;
+return params.db.execReport(
+    'SELECT COUNT(DISTINCT i.uuid) ' + whereSql, ['Pregnancy'],
+    'SELECT DISTINCT i.uuid ' + whereSql, ['Pregnancy'],
+    'Individual'
+);
+```
+
+**Individuals not enrolled in any programme**
+
+```javascript
+const whereSql = `
+    FROM individual i
+    JOIN subject_type st ON st.uuid = i.subject_type_uuid
+    WHERE i.voided = 0 AND st.type = 'Person'
+    AND i.uuid NOT IN (SELECT individual_uuid FROM program_enrolment WHERE voided = 0)
+`;
+return params.db.execReport(
+    'SELECT COUNT(*) ' + whereSql, [],
+    'SELECT i.uuid ' + whereSql, [],
+    'Individual'
+);
+```
+
+**Filter on an observation value, this month**
+
+```javascript
+const whereSql = `
+    FROM program_enrolment pe
+    JOIN program p ON p.uuid = pe.program_uuid
+    JOIN individual i ON i.uuid = pe.individual_uuid
+    WHERE p.name = 'Pregnancy' AND pe.voided = 0 AND i.voided = 0
+    AND pe.program_exit_date_time IS NOT NULL
+    AND EXISTS (
+        SELECT 1 FROM json_each(pe.program_exit_observations) AS obs
+        WHERE json_extract(obs.value, '$.concept.uuid') = '<concept uuid>'
+        AND obs.value LIKE '%<answer concept uuid>%'
+    )
+    AND strftime('%Y-%m', pe.program_exit_date_time/1000, 'unixepoch') = strftime('%Y-%m', 'now')
+`;
+return params.db.execReport(
+    'SELECT COUNT(DISTINCT i.uuid) ' + whereSql, [],
+    'SELECT DISTINCT i.uuid ' + whereSql, [],
+    'Individual'
+);
+```
+
+### Observations in SQL
+
+Observations are a JSON array in a text column: `[{"concept": {"uuid": "…"}, "valueJSON": "{\"answer\": …}"}, …]`. To test for a concept: `observations LIKE '%<concept uuid>%'`. To read a value: `json_each(observations)` then `json_extract(obs.value, '$.concept.uuid')` and `json_extract(obs.value, '$.valueJSON')`. For a coded answer: `obs.value LIKE '%<answer uuid>%'`. For one record, `execFindObservationValue` is simpler.
+
+### Dates
+
+| Need | SQL |
+|---|---|
+| This month | `strftime('%Y-%m', col/1000, 'unixepoch') = strftime('%Y-%m', 'now')` |
+| This year | `strftime('%Y', col/1000, 'unixepoch') = strftime('%Y', 'now')` |
+| Last N days | `col > (strftime('%s', 'now') - N*86400) * 1000` |
+| Between two dates | `col BETWEEN ? AND ?` with epoch milliseconds |
+| Age in years | `(strftime('%s', 'now') * 1000 - date_of_birth) / (365.25*86400000)` |
+
+### Two things that break, and how to tell
+
+A rule that returns a collection makes the app count it by loading every matching record. On the new database that loads everything attached to each record too, so a card that was quick can take a long time. Return the number and hand back the list lazily instead:
+
+```javascript
+const xs = params.db.objects('Individual').filtered("voided == false");
+const n = (typeof xs.count === 'function') ? xs.count() : xs.length;  // Realm results have no count()
+return {primaryValue: n, lineListFunction: () => xs};
+```
+
+The guard is needed because the two databases return different collection types. The second trap: a rule that ends in `.map(…)` or `.filter(cb)` has already turned the results into a plain array, so it has paid the loading cost before anything can help it. Keep filtering inside `.filtered(…)`.
+
 ## Accessing Address Level Properties :
 
 Old Way is to get the address level properties and extract from the json object. In new way, get the address level and access its observation value as per location attribute form.
@@ -1388,6 +1540,9 @@ In many of the rules params db object is available to query the offline database
 <br />
 
 **Realm Query Language Reference** - [https://www.mongodb.com/docs/realm/realm-query-language](https://www.mongodb.com/docs/realm/realm-query-language)
+
+On the new database, `params.db` is not a Realm instance. It is a proxy that answers `params.db.isSqlite === true` and offers the `exec*` methods described in [Writing report cards that work on the new database](#writing-report-cards-that-work-on-the-new-database-technical). Branch on `params.db.isSqlite` when a rule must run on both.
+
 
 ### Difference between filter and filtered
 

@@ -651,6 +651,9 @@ In-case a User belongs to multiple UserGroups, where-in each has a different Pri
 
 ## Report card query examples
 
+Report cards written for the new database follow a different pattern. See [Writing report cards that work on the new database](doc:writing-rules#writing-report-cards-that-work-on-the-new-database-technical) in the rules guide.
+
+
 As mentioned earlier, a query can return a list of Individuals or an object with properties:
 
 ```javascript
