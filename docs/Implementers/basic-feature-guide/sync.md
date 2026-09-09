@@ -22,7 +22,7 @@ The user taps the sync icon at the top of the Home screen. The app uploads what 
 
 ### Automatic Sync
 
-Background sync is off for every user by default. To turn it on, open More, tap the account name at the top (it says Edit Settings underneath), and switch **Disable Auto Sync** off. Until then, the app sends data only when the user taps the sync icon at the top of the Home screen.
+Background sync is off for every user by default. To turn it on, open More, tap the account name at the top (it says Edit Settings underneath), and switch **Disable Auto Sync** off. Until then, the app sends data when the user taps the sync icon at the top of the Home screen, and after login.
 
 When it is on, it runs in one of two forms. For how it decides when to run, see [Internal details of Avni sync](doc:internal-details-of-avni-sync).
 
