@@ -32,4 +32,4 @@ If the sync fails, or the records are still missing after the number has gone, e
 
 ## If the user says background sync is on
 
-A user can switch **Disable Auto Sync** off under More, by tapping the account name at the top. When it is off, the app sends new records on its own about once an hour. It does not send anything in the half hour after a sync has finished. Ask them to tap the sync icon anyway, and treat the ticket as above.
+A user can switch **Disable Auto Sync** off under More, by tapping the account name at the top. When it is off, the app is set to try sending new records on its own about once an hour, and not in the half hour after a sync has finished. Ask them to tap the sync icon anyway, and treat the ticket as above.

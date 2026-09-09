@@ -29,7 +29,7 @@ Send these to the platform team. Do not move the user back until they have repli
 
 1. Ask the user to tap the sync icon on the Home screen and wait until the number on it is gone. Repeat until nothing is waiting. This is what protects their data. Anything not sent before the next step is lost.
 2. In the admin screen, remove the user from the **SQLite Migration** user group.
-3. Ask the user to tap the sync icon again. If the More screen still says **Backend: sqlite**, ask them to tap it once more. The app finishes any sending first and switches on the sync after that.
+3. Ask the user to tap the sync icon again. If the More screen still says **Backend: sqlite**, ask them to tap it once more. If it still says sqlite after that, stop and escalate.
 4. Confirm the More screen now says **Backend: realm**. The app then downloads the user's data afresh, which can take a while for a large area.
 
 ## What this does not do
