@@ -26,6 +26,8 @@ next:
 
 [Introduction](/docs/writing-rules#introduction)  
 [Rule types](/docs/writing-rules#rule-types)  
+[Which database the organisation uses](/docs/writing-rules#which-database-the-organisation-uses)  
+[Writing report cards that work on the new database](/docs/writing-rules#writing-report-cards-that-work-on-the-new-database-technical)  
 [Using service methods in the rules](/docs/writing-rules#using-service-methods-in-the-rules)  
 [Using other group/household individuals' information in the rules](/docs/writing-rules#using-other-grouphousehold-individuals-information-in-the-rules)  
 [Types of rules and their support/availability in Data Entry App](/docs/writing-rules#types-of-rules-and-their-supportavailability-in-data-entry-app)  
