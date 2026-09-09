@@ -31,7 +31,7 @@ A user subject type is a type that can be used to manage information about users
 * **Registration disallowed for User type SubjectTypes**: 
 When a User type SubjectType is created, the default registration form mapping is not created and hence subjects for this subject type cannot be registered.
 
-* **Access to User type Subject on the client**: Users cannot make use of "Subject Search" capability to access the User type Subject on the Client. They would always have to make use of the **Filter** button on a dashboard to select the User type Subject, as shown below.
+* **Access to User type Subject on the client**: Users cannot make use of "Subject Search" capability to access the User type Subject on the Client. They would always have to make use of "Filter" button on "My Dashboard" to select the User type Subject, as shown below.
 
 <Image alt="Select User type in the Subject Filter" align="center" width="500px" border={true} src="https://files.readme.io/f265252-Screenshot_2024-05-17_at_4.23.24_PM.png">
   Select User type in the Subject Filter
