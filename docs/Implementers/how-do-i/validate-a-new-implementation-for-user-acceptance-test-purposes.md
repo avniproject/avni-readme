@@ -52,7 +52,7 @@ next:
 
 * **Forgot Password:** Forgot password option on the login page allows the user to generate a new password.
 
-* By clicking on the forgot password, user can see the page where the registered user ID needs to be submitted. On providing the correct user ID, a pop-up will be displayed ‘We have sent an OTP on your registered Mobile Number’.
+* By clicking on the forgot password, user can see the page where the registered user ID needs to be submitted. On providing the correct user ID, a pop-up will be displayed ‘We have sent OTP on your registered Mobile Number’.
 
   ![](Aspose.Words.e7a1731f-5ee8-4023-8075-158ab95af182.004.png)![](Aspose.Words.e7a1731f-5ee8-4023-8075-158ab95af182.005.png)
 
@@ -122,7 +122,7 @@ next:
 
 **6. More Page:**
 
-* **Edit Settings:** In the ‘More’ section, the user should be able to click on the user icon to open ‘edit settings’. The edit setting should have configuration fields of Language, Location, Dashboard, and Auto-sync as shown below.
+* **Edit Settings:** In the ‘More’ section, the user should be able to click on the user icon to open ‘edit settings’. The Settings screen has four sections: Language, Location, Dashboard Auto Refresh and Auto Sync, as shown below.
 
   ![](Aspose.Words.e7a1731f-5ee8-4023-8075-158ab95af182.016.png)
 
@@ -134,7 +134,7 @@ next:
 
 * Track location if it is disabled or they refuse to give the permission then it should not capture the user's location
 
-* **Dashboard Auto-Refresh,** disabling this toggle would restrict the user from seeing updated version automatically
+* **Dashboard Auto Refresh:** switching **Disable Dashboard Auto Refresh** on stops the dashboard on the Home tab refreshing on its own. The dashboard then shows when it was last refreshed, with a button to refresh it.
 
 * If the user disables the auto refresh then the dashboard should not update the data on the dashboard automatically.
 

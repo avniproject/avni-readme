@@ -60,7 +60,7 @@ Media added to a concept can be used in forms as follows:
 * **Answer options**: Display images or videos alongside answer choices to guide user selection
 * **Question explanations**: Show supplementary media to clarify what information is being collected
 
-> <Image align="center" alt="App Designer showing media-enabled concepts integrated into form questions and answer options" border={false} src="https://files.readme.io/dd576e833fcaa2057680c629419ec653f8e629cd9a28a5dea6f08579062d5000-ConceptsWithMediaView.png" />
+> <Image align="center" alt="App Designer, Edit Concept screen for a coded concept: an image and a video can be attached to the concept, and to each answer" border={false} src="https://files.readme.io/dd576e833fcaa2057680c629419ec653f8e629cd9a28a5dea6f08579062d5000-ConceptsWithMediaView.png" />
 
 ### Supported Media Types
 
