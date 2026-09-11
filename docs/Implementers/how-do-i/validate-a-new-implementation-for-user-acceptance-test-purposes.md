@@ -52,7 +52,7 @@ next:
 
 * **Forgot Password:** Forgot password option on the login page allows the user to generate a new password.
 
-* By clicking on the forgot password, user can see the page where the registered user ID needs to be submitted. On providing the correct user ID, a pop-up will be displayed ‘We have sent OTP on your registered Mobile Number’.
+* By clicking on the forgot password, user can see the page where the registered user ID needs to be submitted. On tapping **Send OTP** with a valid user ID, the app opens a screen to enter the OTP, a new password and its confirmation, with a **Change Password** button.
 
   ![](Aspose.Words.e7a1731f-5ee8-4023-8075-158ab95af182.004.png)![](Aspose.Words.e7a1731f-5ee8-4023-8075-158ab95af182.005.png)
 
