@@ -113,6 +113,8 @@ Once the above-provided prerequisites have been created successfully, we can pro
    9. Date Picker Mode - Set default date picker for the Field App
    10. Time Picker Mode - Set default time picker for the Field App
 
+   ![Web admin, a user's Settings block: Disable auto sync on](https://github.com/user-attachments/assets/945e6934-9704-47dc-8a86-edd3adec1e11)
+
    ![](https://files.readme.io/a73b680-image1.png)
 
 

@@ -20,6 +20,10 @@ next:
 >
 > **What to do now:** check that every user group in the organisation has a dashboard with **Is Primary** set, under User Groups in the admin screen. If the organisation has dashboards, assign one to each group and set Is Primary on it. If it has none, ask Avni support. The standard procedure for creating one is [here](doc:move-org-to-custom-dashboard-from-mydashboard) and runs on a test organisation first.
 
+![Web admin, User Groups, a group's Dashboards tab: the Is Primary and Is Secondary columns](https://github.com/user-attachments/assets/bfd55c74-01a5-418e-963b-67e70b482f05)
+
+![Home tab showing the organisation's own dashboard, with the sync icon at the top right](https://github.com/user-attachments/assets/7b2a43f5-89ba-4567-b654-5a6fc33e5e86)
+
 Avni allows the display of custom filter in **Search** and **My Dashboard filter** page. These settings are available within App designer. Filter settings are stored in organisation\_config table.  You can define filters for different subject types. Please refer to the table below for various options.
 
 # Filter Types

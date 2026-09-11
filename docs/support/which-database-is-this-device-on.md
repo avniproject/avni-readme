@@ -20,6 +20,11 @@ Ask the user to open **More**, scroll to the bottom, and send a screenshot of th
 * **Backend: realm** and the user is in the **SQLite Migration** user group: escalate with the screenshot, and say the user is in the group.
 * **Backend: sqlite**: the user has been moved. Note it on the ticket. The Database Schema number is a small number on the new database, not the large one seen on the old one.
 
+![Bottom of the More screen on the old database: Backend: realm](https://github.com/user-attachments/assets/562c5ae4-f6bb-472f-b263-2bb613d72368)
+
+![Bottom of the More screen on the new database: Backend: sqlite, with a small Database Schema number](https://github.com/user-attachments/assets/a0860890-072b-4a53-a62c-4883be91662a)
+
+
 ## Two other things that change on the new database
 
 * The **Setup fast sync** item under More is not shown on the new database. Read the Backend line rather than the menu.

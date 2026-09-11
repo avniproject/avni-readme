@@ -124,7 +124,7 @@ next:
 
 * **Edit Settings:** In the ‘More’ section, the user should be able to click on the user icon to open ‘edit settings’. The Settings screen has four sections: Language, Location, Dashboard Auto Refresh and Auto Sync, as shown below.
 
-  ![](Aspose.Words.e7a1731f-5ee8-4023-8075-158ab95af182.016.png)
+  ![Settings screen of a new user: Disable Auto Sync on, Disable Dashboard Auto Refresh off, Track Location off](https://github.com/user-attachments/assets/dddc995b-7ab0-4d47-b216-31c34159de79)
 
 * In the **Language,** select the language the app content should be displayed and the app content should be displayed in the selected language. The default language is English
 
@@ -135,6 +135,8 @@ next:
 * Track location if it is disabled or they refuse to give the permission then it should not capture the user's location
 
 * **Dashboard Auto Refresh:** switching **Disable Dashboard Auto Refresh** on stops the dashboard on the Home tab refreshing on its own. The dashboard then shows when it was last refreshed, with a button to refresh it.
+
+  ![Home tab with Disable Dashboard Auto Refresh on: the Last refreshed on line and the refresh icon](https://github.com/user-attachments/assets/8590bf99-b76f-4f0d-a81d-1d0ce8c7e74c)
 
 * If the user disables the auto refresh then the dashboard should not update the data on the dashboard automatically.
 

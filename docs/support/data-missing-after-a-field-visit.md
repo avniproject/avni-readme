@@ -14,12 +14,17 @@ next:
 
 Background sync is off by default. Unless the user has switched **Disable Auto Sync** off (under More, by tapping the account name at the top), the app sends data only when they tap the sync icon at the top of the Home screen.
 
+![Settings screen of a new user: Disable Auto Sync on, Disable Dashboard Auto Refresh off, Track Location off](https://github.com/user-attachments/assets/dddc995b-7ab0-4d47-b216-31c34159de79)
+
+
 If a user reports that records they saved are not on the server, first ask whether they have tapped the sync icon since saving.
 
 ## What to ask them to do
 
 1. Open the app. On the Home screen, look at the sync icon at the top. A number on it means records are waiting to be sent.
 2. Tap the sync icon and wait for it to finish. The number goes away when the records have been sent.
+
+   ![Home tab showing the organisation's own dashboard, with the sync icon at the top right](https://github.com/user-attachments/assets/7b2a43f5-89ba-4567-b654-5a6fc33e5e86)
 3. Check the server again.
 
 ## If it is still missing

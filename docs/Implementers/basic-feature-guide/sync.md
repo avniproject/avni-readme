@@ -24,6 +24,9 @@ The user taps the sync icon at the top of the Home screen. The app uploads what 
 
 Background sync is off for every user by default. To turn it on, open More, tap the account name at the top (it says Edit Settings underneath), and switch **Disable Auto Sync** off. Until then, the app sends data when the user taps the sync icon at the top of the Home screen.
 
+![Settings screen of a new user: Disable Auto Sync on, Disable Dashboard Auto Refresh off, Track Location off](https://github.com/user-attachments/assets/dddc995b-7ab0-4d47-b216-31c34159de79)
+
+
 When it is on, see [Internal details of Avni sync](doc:internal-details-of-avni-sync) for how it decides when to run. The two forms:
 
 

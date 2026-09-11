@@ -26,6 +26,11 @@ There are few things to note before we start setting up fast sync.
 
 The Setup fast sync item is not shown on devices using the new database.
 
+![More menu on the old database: Entity Sync Status and Setup fast sync](https://github.com/user-attachments/assets/03ea2570-1ba3-4d2a-b3f4-63ea42b5f20a)
+
+![More menu on the new database: Entity Sync Status only, Setup fast sync is not shown](https://github.com/user-attachments/assets/c1c77e3d-c1e3-4aab-80f4-feee2cab3851)
+
+
 <Image title="fast sync.png" alt={568} align="center" src="https://files.readme.io/125e0b2-fast_sync.png">
   Fast sync setup option.
 </Image>
