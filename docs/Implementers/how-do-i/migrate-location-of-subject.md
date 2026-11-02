@@ -12,7 +12,7 @@ next:
 ---
 # Please refer to API Doc
 
-[https://editor.swagger.io/?url=https://raw.githubusercontent.com/avniproject/avni-server/master/avni-server-api/src/main/resources/api/external-api.yaml](https://editor.swagger.io/?url=https://raw.githubusercontent.com/avniproject/avni-server/master/avni-server-api/src/main/resources/api/external-api.yaml)
+[https://avniproject.github.io/docs/](https://avniproject.github.io/docs/)
 
 # Documentation Deprecated
 
