@@ -24,7 +24,7 @@ If you are unfamiliar with Avni's **domain model** then read the following pages
 ### Helpful Reference
 
 1. Swagger documentation is available here:\
-   [https://editor.swagger.io/?url=https://raw.githubusercontent.com/avniproject/avni-server/master/avni-server-api/src/main/resources/api/external-api.yaml](https://editor.swagger.io/?url=https://raw.githubusercontent.com/avniproject/avni-server/master/avni-server-api/src/main/resources/api/external-api.yaml)
+   [https://avniproject.github.io/docs/](https://avniproject.github.io/docs/)
 
 2. If you use Postman you can use this public collection (it may not have all the API requests in it)\
    [https://www.getpostman.com/collections/cd269030533a58e1c072](https://www.getpostman.com/collections/cd269030533a58e1c072)
