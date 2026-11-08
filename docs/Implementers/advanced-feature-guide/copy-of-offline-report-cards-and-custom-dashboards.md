@@ -18,7 +18,7 @@ Creating a new card is no different than creating any other Avni entity. Open ap
 Cards can be of 4 types:
 
 1. **Standard Report Card** — Built-in logic for common use cases (scheduled visits, overdue, approvals, etc.)
-2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit, or mark attendance)
+2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit, mark attendance, or open dashboard)
 3. **Nested Report Card** — A single query that renders up to 9 sub-cards
 4. **Custom Design Card** — A fully custom card rendered using an uploaded HTML template with dynamic data
 
@@ -79,11 +79,12 @@ Custom data cards are query-based cards where the implementer writes the logic. 
 
 #### Action Configuration
 
-When creating a custom data card (with "Is Standard Report Card?" disabled), an **Action** dropdown appears with three options:
+When **Custom Data Card** is the card type, an **Action** dropdown appears with four options:
 
 - **View subject profile** (default) — Opens the subject's profile on tap
 - **Do visit** — Opens an encounter form on tap
 - **Mark attendance** — Opens the attendance sheet for a class, pre-selected to one attendance type for today (requires the [Attendance](doc:attendance) feature)
+- **Open dashboard** — Opens another dashboard on tap, with the filters the two dashboards share carried over (see [Open Dashboard Action](#open-dashboard-action))
 
 #### View Subject Profile (Default Action)
 
@@ -287,6 +288,43 @@ When **Mark attendance** is selected, these configuration fields appear:
 };
 ```
 
+#### Open Dashboard Action
+
+This action takes the user from one dashboard to another in one tap. Filters the two dashboards share are carried over, so the user does not choose them again.
+
+It is set in App Designer. Open the card from the **Card** tab and choose **Open dashboard** in its **Action** dropdown. When **Open dashboard** is selected, this field appears:
+
+| Field         | Required | Description                                                                            |
+| ------------- | -------- | -------------------------------------------------------------------------------------- |
+| **Dashboard** | Yes      | The dashboard the card opens. The picker lists the organisation's dashboards by name |
+
+Saving with no dashboard picked shows "Dashboard is required for Open dashboard action", and the card is not saved.
+
+**Cards that offer it:**
+
+- **Custom Data Card**, as the fourth action in the list above.
+- **Custom Design Card**. Its **Action** dropdown offers **No action** and **Open dashboard**. A tap on its tile still opens the card's own page. A link on that page opens the dashboard (see [Page commands](#page-commands)).
+- A **Nested Report Card** does not offer it.
+
+**Behaviour on the field app:**
+
+- Tapping a Custom Data Card opens the chosen dashboard on its own screen. The screen has a back arrow and the dashboard's name as its title.
+- The dashboard has its usual **FILTER** button and the bar of applied filters.
+- Back returns to the dashboard the user came from, with its own cards, counts and filters.
+- The card's query sets only the number on the tile. A tile whose query returns only a number still opens the dashboard.
+
+**Who can open it:**
+
+- Assign the chosen dashboard to the user groups of the users who tap the card. See [Assigning custom Dashboards to User Groups](#assigning-custom-dashboards-to-user-groups).
+- For a user whose groups do not have it, tapping the tile shows "This dashboard is not available to you", and nothing opens.
+
+**Filters that carry over:**
+
+- Filters the two dashboards share carry over to the dashboard that opens.
+- Location, date range, as-on date and subject type filters carry over when the opened dashboard has the same filter.
+- A filter that only the opened dashboard has is left as it was.
+- The carried values become the opened dashboard's saved filters. Opening it later from **Dashboards** in the **More** tab shows the same values.
+
 ### 3. Custom Design Cards
 
 Custom design cards allow implementers to upload an HTML file as the display template for a fully custom card. This enables org-specific layouts (tables, styling, sections) without being constrained by the fixed Avni card UI.
@@ -297,6 +335,8 @@ Custom design cards allow implementers to upload an HTML file as the display tem
 2. **Data Rule** (optional): A JS rule that returns dynamic data for the HTML template. Input/output follows the same pattern as other card rules — dashboard filters are passed as input, and the rule returns a `data` object whose keys are reachable in the HTML as `data.variableName`. If `primaryValue`/`secondaryValue` are returned, they show on the card tile. If `name` or `colors` are returned, they override the tile's name and colours.
 3. **HTML File** (required): Upload an HTML file defining the custom layout. Saving without an HTML file shows a validation error. Saving without a data rule is allowed.
 4. **Translations** (optional): Key and English value pairs the HTML template can reference as `${translations.KEY}`. See [Translations](#translations) below.
+
+**Page commands:** a row on the card's page can open, edit or start the record it points to. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. See [Page commands](#page-commands) under Custom Design Cards further down.
 
 Sample Data Rule and HTML
 
@@ -1494,6 +1534,168 @@ empty `data` object.
     <table><!-- wide table --></table>
 </div>
 ```
+
+#### Page commands
+
+A row on the card's page can open the record it is about, edit it, or start a visit. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. The field app gives the page an object named `avni` that holds these commands.
+
+**The commands:**
+
+| Command | What it opens |
+|---|---|
+| `avni.openSubject(subjectUUID, tab)` | The subject's dashboard. Set `tab` to `'profile'`, `'program'` or `'general'` to open the **Profile**, **Programs** or **General** tab. Leave `tab` out to open the subject as a tap on a search result does. |
+| `avni.openEnrolment(enrolmentUUID)` | The subject's **Programs** tab, on that enrolment. |
+| `avni.openVisit(visitUUID)` | A general visit opens the subject's **General** tab. A program visit opens the **Programs** tab, on its enrolment. |
+| `avni.editRegistration(subjectUUID)` | The registration form, to edit. |
+| `avni.editEnrolment(enrolmentUUID)` | The enrolment form, to edit. |
+| `avni.editExit(enrolmentUUID)` | The program exit form, to edit. It works only for an enrolment that has exited. |
+| `avni.editVisit(visitUUID)` | The visit form, to edit. A cancelled visit opens its cancel form. A planned visit opens to be done. |
+| `avni.startVisit(subjectUUID, visitTypeUUID, enrolmentUUID)` | A visit of that type. If one of that type is planned, the one due first opens. Otherwise a new visit opens. For a program visit, pass the enrolment, which must be active. |
+| `avni.runCardAction({locationUUID: locationUUID})` | The card's dashboard, with that location in its location filter. It works only on a card whose action is **Open dashboard**. See the View Performance example below. |
+
+**What the app checks:** the record commands open nothing until these checks pass.
+
+- The record must be on the phone.
+- The user must be able to view the subject's type. A user who cannot view it does not have its records on the phone, so the command shows "This record is not on this phone".
+- An edit needs the same right as the **Edit** button on the subject's dashboard.
+- An edit runs the form's [edit form rule](/docs/writing-rules#17-edit-form-rule). If the rule refuses, its message shows and nothing opens.
+- A visit whose visit type is [immutable](/docs/encounter-type#immutable-encounter-type) cannot be edited.
+- Starting a visit needs the right to perform that visit type.
+- Starting a visit does not run the visit type's [eligibility check rule](/docs/writing-rules#8-encounter-eligibility-check-rule).
+
+**Messages:** when a command cannot run, a short message shows and the card page stays.
+
+| Message | When it shows |
+|---|---|
+| This record is not on this phone | The record is not on the phone, or it was deleted. For `runCardAction`, the location is not on the phone. |
+| You do not have permission to do this | The user does not have the right the command needs. It also shows when an edit rule refuses without a message of its own. |
+| This action is not available for this record | The record does not allow the command. Examples: an unknown tab name, an exit edit on an enrolment that has not exited, an edit of an immutable visit, or a visit started on an enrolment that has exited. |
+| The edit rule's own message | The form's edit rule refuses the edit. |
+| This dashboard is not available to you | For `runCardAction`, the card's dashboard is not in the user's groups. |
+
+**Coming back to the card page:**
+
+- Back from a screen a command opened returns to the card page.
+- Saving an edit or a new visit returns to the card page. A form of several pages returns there after its last page.
+- The card page then runs its data rule again, so its rows show the saved values.
+
+**Sample data rule and row.** The data rule puts each record's id on its row. The template calls a command from the row's `onclick`. The template sits inside backticks, so it builds the rows with `+` and has no backticks of its own.
+
+```javascript
+'use strict';
+({params, imports}) => {
+    const households = params.db.objects('Individual')
+        .filtered("voided = false AND subjectType.name = 'Household'")
+        .filter(() => true);
+    const rows = households.map(household => ({
+        name: household.nameString,
+        subjectUUID: household.uuid,
+    }));
+    return {primaryValue: String(rows.length), data: {rows: rows}};
+};
+```
+
+```html
+<style>
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 14px 6px; border-bottom: 1px solid #e0e0e0; }
+</style>
+
+<table>
+    ${data.rows.map(row =>
+        '<tr onclick="avni.openSubject(\'' + row.subjectUUID + '\', \'general\')">'
+        + '<td>' + row.name + '</td>'
+        + '</tr>'
+    ).join('')}
+</table>
+```
+
+A tap on a household's row opens its **General** tab.
+
+**Example: a View Performance link for each cluster.** A supervisor's home dashboard has a Custom Design Card, "My Clusters". Its page lists the clusters on the phone, with a **View Performance** link on each row. The card's action is **Open dashboard**, and its dashboard is "Cluster Performance", which has a location filter. A tap on a cluster's link opens Cluster Performance for that cluster.
+
+Data rule:
+
+```javascript
+'use strict';
+({params, imports}) => {
+    // Every location on the phone, and the location each one sits under.
+    const locations = params.db.objects('AddressLevel').filtered('voided = false').filter(() => true);
+    const parentOf = {};
+    locations.forEach(location => {
+        if (location.parentUuid) parentOf[location.uuid] = location.parentUuid;
+    });
+
+    // The number of people registered in each cluster's villages.
+    const people = {};
+    params.db.objects('Individual').filtered("voided = false AND subjectType.name = 'Person'").filter(() => true)
+        .forEach(person => {
+            const village = person.lowestAddressLevel;
+            const cluster = village && parentOf[village.uuid];
+            if (cluster) people[cluster] = (people[cluster] || 0) + 1;
+        });
+
+    // One row per cluster, with the cluster's id for its link.
+    const rows = locations
+        .filter(location => location.type === 'Cluster')
+        .map(location => ({locationUUID: location.uuid, name: location.name, people: people[location.uuid] || 0}))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    return {primaryValue: String(rows.length), secondaryValue: 'Clusters', data: {rows: rows}};
+};
+```
+
+HTML template:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body { font-family: sans-serif; margin: 0; padding: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 6px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+    a.view { display: inline-block; padding: 8px 12px; border-radius: 18px; background: #0b57d0;
+             color: #ffffff; text-decoration: none; font-weight: 600; white-space: nowrap; }
+</style>
+
+<h2>My Clusters</h2>
+<table>
+    <tr><th>Cluster</th><th>People</th><th></th></tr>
+    ${data.rows.map(row => '<tr><td>' + row.name + '</td><td>' + row.people + '</td>'
+        + '<td><a href="#" class="view" data-location="' + row.locationUUID + '">View Performance</a></td></tr>').join('')}
+</table>
+
+<script>
+    document.querySelectorAll('a.view').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            avni.runCardAction({locationUUID: link.getAttribute('data-location')});
+        });
+    });
+</script>
+```
+
+The script runs as the page loads, and only adds the click listeners. It uses `avni` inside them, when the user taps.
+
+On a tap:
+
+- The card's dashboard opens, with the cluster in its location filter.
+- Other filters the two dashboards share carry over, as they do for a tile. The link's location replaces any location carried over.
+- Back returns to the card page. Back again returns to the dashboard underneath, as the user left it.
+- A location outside the user's catchment is not on the phone. Its link shows "This record is not on this phone", and nothing opens.
+- A location above the user's catchment is not on the phone either, so its link shows the same message.
+- If the card's dashboard has no location filter, it opens without the location.
+- On a card whose action is not **Open dashboard**, `runCardAction` does nothing.
+
+Point the card at a dashboard other than the one it sits on. When a card opens its own dashboard, the link's location stays as that dashboard's saved location.
+
+**Rules for the page:**
+
+- Call a command only from the user's tap, in an `onclick` or a click listener. A command called before the user has touched the page does nothing.
+- Do not check for `avni` while the page loads. The `avni` object can arrive after the page's own scripts have run.
+- Do not define anything named `avni` on the page. A page that has its own `avni` keeps it and gets no commands.
+- In an `onclick`, put each id in quotes, as the first sample does.
+- For a general visit, leave out the third argument of `startVisit`.
+- Spell the key for `runCardAction` exactly as `locationUUID`.
 
 #### Things to Avoid
 
