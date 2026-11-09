@@ -18,7 +18,7 @@ Creating a new card is no different than creating any other Avni entity. Open ap
 Cards can be of 4 types:
 
 1. **Standard Report Card** — Built-in logic for common use cases (scheduled visits, overdue, approvals, etc.)
-2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit, mark attendance, and from release 18.3 open dashboard)
+2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit, mark attendance, or, from release 18.3, open dashboard)
 3. **Nested Report Card** — A single query that renders up to 9 sub-cards
 4. **Custom Design Card** — A fully custom card rendered using an uploaded HTML template with dynamic data
 
@@ -71,7 +71,7 @@ Subject Type, Program and Encounter Type filters are supported for 'Overdue Visi
 
 <br />
 
-Filters can also be configured at the dashboard level (covered below). If a filter is configured both at the report card level and the dashboard level, the filter at the report card level is applied first. Hence, mixing of the same type of filter at both levels should be avoided as it could lead to the unintuitive behaviour of the field user selecting a value, say 'Household' for the subject type filter at the dashboard level but still seeing the numbers for the 'Individual' subject type which is configured at the report card level.
+Filters can also be configured at the dashboard level (covered below). When a card has its own subject type and the dashboard's Subject Type filter is set too, both apply. For example, a card set to one subject type shows 0 once the user picks another subject type in the dashboard's Subject Type filter. So avoid setting the same filter at both levels.
 
 ### 2. Custom Data Cards
 
@@ -583,6 +583,35 @@ You can also create filters for a dashboard on the same screen by clicking on "A
 ![](https://files.readme.io/91f1aa1-image.png)
 
 Once all the changes are done. Save the dashboard.
+
+#### Preset on the Subject Type filter
+
+From release 18.3, a Subject Type filter can carry a preset: a subject type, and optionally one of its programs.
+
+Set it in the filter popup. When the filter's **Type** is Subject Type, the popup shows a **Preset subject type** field. Once a subject type is chosen there, a **Preset program** field appears. Both fields are optional.
+
+{/* upload `subject-type-filter-preset-config.png` — App Designer filter popup with Type = "Subject Type", a subject type chosen in "Preset subject type" and one of its programs chosen in "Preset program" */}
+
+On the dashboard's **Show Offline Dashboard** page, the filters table shows the preset in its **Subject Type** column, as "Preset:" followed by the subject type.
+
+**Behaviour on the field app:**
+
+- The Subject Type filter starts with the preset.
+- The **FILTER** screen leaves out the steps the preset covers. The user cannot choose another subject type.
+- With a preset subject type, the Subject Type filter shows that subject type's programs, then visit types. The user can still pick a program or a visit type.
+- With a preset program as well, the filter shows only that program's visit types.
+- The preset is always in force. Even before the user opens the filter, the standard cards listed under [Standard Report Card Type Filters](#standard-report-card-type-filters) count only the preset.
+- With a preset program, the Recent visits card still counts general visits of the preset subject type.
+- A user who is not allowed to view the preset program sees 0 on Total, Recent registrations and Recent enrolments.
+- Once the user taps **Apply**, the bar of applied filters shows the preset.
+- The clear icon on the bar puts the Subject Type filter back on the preset. It also clears the dashboard's other filters.
+- If the preset is changed, each user's saved filters on that dashboard reset to the new preset at their next sync.
+
+{/* upload `subject-type-filter-preset-client.png` — Android FILTER screen of a dashboard whose Subject Type filter has a preset subject type: no subject type list, with the "Programs" and "Choose Visit Type" lists shown */}
+
+**The Subject Type setting on other filters:**
+
+A filter such as Registration Date has its own **Subject Type** setting. It decides when that filter shows on the phone. The filter shows only once that subject type is chosen in the Subject Type filter. The preset decides what the Subject Type filter starts with. So on a dashboard with a preset, a filter set for the preset subject type shows straight away. A filter set for another subject type does not show.
 
 #### For the filters to be applied to the cards in the dashboard, the code for the cards will need to handle the filters.
 
