@@ -18,7 +18,7 @@ Creating a new card is no different than creating any other Avni entity. Open ap
 Cards can be of 4 types:
 
 1. **Standard Report Card** — Built-in logic for common use cases (scheduled visits, overdue, approvals, etc.)
-2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit, mark attendance, or open dashboard)
+2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit, mark attendance, and from release 18.3 open dashboard)
 3. **Nested Report Card** — A single query that renders up to 9 sub-cards
 4. **Custom Design Card** — A fully custom card rendered using an uploaded HTML template with dynamic data
 
@@ -79,12 +79,12 @@ Custom data cards are query-based cards where the implementer writes the logic. 
 
 #### Action Configuration
 
-When **Custom Data Card** is the card type, an **Action** dropdown appears with four options:
+When **Custom Data Card** is the card type, an **Action** dropdown appears with these options:
 
 - **View subject profile** (default) — Opens the subject's profile on tap
 - **Do visit** — Opens an encounter form on tap
 - **Mark attendance** — Opens the attendance sheet for a class, pre-selected to one attendance type for today (requires the [Attendance](doc:attendance) feature)
-- **Open dashboard** — Opens another dashboard on tap, with the filters the two dashboards share carried over (see [Open Dashboard Action](#open-dashboard-action))
+- **Open dashboard** — From release 18.3. Opens another dashboard on tap, with the filters the two dashboards share carried over (see [Open Dashboard Action](#open-dashboard-action))
 
 #### View Subject Profile (Default Action)
 
@@ -290,7 +290,7 @@ When **Mark attendance** is selected, these configuration fields appear:
 
 #### Open Dashboard Action
 
-This action takes the user from one dashboard to another in one tap. Filters the two dashboards share are carried over, so the user does not choose them again.
+From release 18.3, this action takes the user from one dashboard to another in one tap. Filters the two dashboards share are carried over, so the user does not choose them again.
 
 It is set in App Designer. Open the card from the **Card** tab and choose **Open dashboard** in its **Action** dropdown. When **Open dashboard** is selected, this field appears:
 
@@ -336,7 +336,7 @@ Custom design cards allow implementers to upload an HTML file as the display tem
 3. **HTML File** (required): Upload an HTML file defining the custom layout. Saving without an HTML file shows a validation error. Saving without a data rule is allowed.
 4. **Translations** (optional): Key and English value pairs the HTML template can reference as `${translations.KEY}`. See [Translations](#translations) below.
 
-**Page commands:** a row on the card's page can open, edit or start the record it points to. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. See [Page commands](#page-commands) under Custom Design Cards further down.
+**Page commands:** from release 18.3, a row on the card's page can open, edit or start the record it points to. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. See [Page commands](#page-commands) under Custom Design Cards further down.
 
 Sample Data Rule and HTML
 
@@ -1537,7 +1537,7 @@ empty `data` object.
 
 #### Page commands
 
-A row on the card's page can open the record it is about, edit it, or start a visit. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. The field app gives the page an object named `avni` that holds these commands.
+From release 18.3, a row on the card's page can open the record it is about, edit it, or start a visit. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. The field app gives the page an object named `avni` that holds these commands.
 
 **The commands:**
 
