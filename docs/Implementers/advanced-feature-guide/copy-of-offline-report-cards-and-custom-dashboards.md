@@ -18,7 +18,7 @@ Creating a new card is no different than creating any other Avni entity. Open ap
 Cards can be of 4 types:
 
 1. **Standard Report Card** — Built-in logic for common use cases (scheduled visits, overdue, approvals, etc.)
-2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit, mark attendance, or, from release 18.3, open dashboard)
+2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit or mark attendance; from release 18.3, also open dashboard)
 3. **Nested Report Card** — A single query that renders up to 9 sub-cards
 4. **Custom Design Card** — A fully custom card rendered using an uploaded HTML template with dynamic data
 
@@ -84,7 +84,7 @@ When **Custom Data Card** is the card type, an **Action** dropdown appears with 
 - **View subject profile** (default) — Opens the subject's profile on tap
 - **Do visit** — Opens an encounter form on tap
 - **Mark attendance** — Opens the attendance sheet for a class, pre-selected to one attendance type for today (requires the [Attendance](doc:attendance) feature)
-- **Open dashboard** — From release 18.3. Opens another dashboard on tap, with the filters the two dashboards share carried over (see [Open Dashboard Action](#open-dashboard-action))
+- **Open dashboard** — From release 18.3, opens another dashboard on tap, with filters the two dashboards share carried over (see [Open Dashboard Action](#open-dashboard-action))
 
 #### View Subject Profile (Default Action)
 
@@ -302,7 +302,7 @@ Saving with no dashboard picked shows "Dashboard is required for Open dashboard 
 
 **Cards that offer it:**
 
-- **Custom Data Card**, as the fourth action in the list above.
+- A **Custom Data Card** offers it as the fourth action in the list above.
 - **Custom Design Card**. Its **Action** dropdown offers **No action** and **Open dashboard**. A tap on its tile still opens the card's own page. A link on that page opens the dashboard (see [Page commands](#page-commands)).
 - A **Nested Report Card** does not offer it.
 
@@ -311,7 +311,7 @@ Saving with no dashboard picked shows "Dashboard is required for Open dashboard 
 - Tapping a Custom Data Card opens the chosen dashboard on its own screen. The screen has a back arrow and the dashboard's name as its title.
 - The dashboard has its usual **FILTER** button and the bar of applied filters.
 - Back returns to the dashboard the user came from, with its own cards, counts and filters.
-- The card's query sets only the number on the tile. A tile whose query returns only a number still opens the dashboard.
+- A tile opens the dashboard on tap whether its query returns a list of subjects or only a number. The query's list of subjects is not shown.
 
 **Who can open it:**
 
@@ -322,6 +322,7 @@ Saving with no dashboard picked shows "Dashboard is required for Open dashboard 
 
 - Filters the two dashboards share carry over to the dashboard that opens.
 - Location, date range, as-on date and subject type filters carry over when the opened dashboard has the same filter.
+- If the opened dashboard's Subject Type filter has a [preset](#preset-on-the-subject-type-filter), it keeps its preset.
 - A filter that only the opened dashboard has is left as it was.
 - The carried values become the opened dashboard's saved filters. Opening it later from **Dashboards** in the **More** tab shows the same values.
 
@@ -596,13 +597,14 @@ On the dashboard's **Show Offline Dashboard** page, the filters table shows the 
 
 **Behaviour on the field app:**
 
+- Phones need release 18.3 of the field app for the preset. On an older app, the **FILTER** screen still shows the subject type list, and the cards count every subject type.
 - The Subject Type filter starts with the preset.
-- The **FILTER** screen leaves out the steps the preset covers. The user cannot choose another subject type.
+- The **FILTER** screen leaves out the subject type list. The user cannot choose another subject type. With a preset program, the screen also leaves out the program list.
 - With a preset subject type, the Subject Type filter shows that subject type's programs, then visit types. The user can still pick a program or a visit type.
 - With a preset program as well, the filter shows only that program's visit types.
-- The preset is always in force. Even before the user opens the filter, the standard cards listed under [Standard Report Card Type Filters](#standard-report-card-type-filters) count only the preset.
-- With a preset program, the Recent visits card still counts general visits of the preset subject type.
-- A user who is not allowed to view the preset program sees 0 on Total, Recent registrations and Recent enrolments.
+- The preset is always in force. Even before the user opens the filter, the standard cards listed under [Standard Report Card Type Filters](#standard-report-card-type-filters) count only the preset subject type.
+- At present, with a preset program, the Recent visits card still counts general visits of the preset subject type.
+- A user who is not allowed to view the preset program sees 0 on Total, Recent registrations and Recent enrolments. As above, Recent visits still counts general visits.
 - Once the user taps **Apply**, the bar of applied filters shows the preset.
 - The clear icon on the bar puts the Subject Type filter back on the preset. It also clears the dashboard's other filters.
 - If the preset is changed, each user's saved filters on that dashboard reset to the new preset at their next sync.
@@ -611,7 +613,11 @@ On the dashboard's **Show Offline Dashboard** page, the filters table shows the 
 
 **The Subject Type setting on other filters:**
 
-A filter such as Registration Date has its own **Subject Type** setting. It decides when that filter shows on the phone. The filter shows only once that subject type is chosen in the Subject Type filter. The preset decides what the Subject Type filter starts with. So on a dashboard with a preset, a filter set for the preset subject type shows straight away. A filter set for another subject type does not show.
+- A filter such as Registration Date has its own **Subject Type** setting. It decides when that filter shows on the phone.
+- The filter shows only once that subject type is chosen in the Subject Type filter.
+- The preset decides what the Subject Type filter starts with.
+- On a dashboard with a preset, a filter set for the preset subject type shows straight away.
+- A filter set for another subject type does not show.
 
 #### For the filters to be applied to the cards in the dashboard, the code for the cards will need to handle the filters.
 
@@ -666,6 +672,8 @@ After saving the dashboard sync the field app, and from the bottom "More" tab cl
 
 
 Clicking any card will take the user to the subject listing page, which will display all the subject names returned by the card query. For custom data cards with the "View subject profile" action, if only one subject is returned, the app directly opens the subject's profile. For cards with the "Do visit" action, clicking opens the encounter form directly (for single subject) or shows the list with encounter type rows below each subject. For cards with the "Mark attendance" action, tapping a class opens the attendance sheet for that class and attendance type for today (Android only — see the _Mark Attendance Action_ section above).
+
+From release 18.3, tapping a custom data card with the "Open dashboard" action opens the dashboard chosen on that card (see [Open Dashboard Action](#open-dashboard-action)).
 
 
 <Image src="https://files.readme.io/f5ba147ebded65488509282dc6a8681a3a9f7292833c5f396f4202d8dfcebe7c-directencounterform.gif" align="center" width="200px" />
