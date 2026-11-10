@@ -10,68 +10,26 @@ metadata:
 next:
   description: ''
 ---
-In-order to ease the monitoring of ETL runs across all organisations of an environment, we have created following Reports:
+To monitor ETL runs across all organisations of an environment, use the reports below. Each opens in Metabase in a new window, and you need to sign in to Metabase to see it.
 
 ## Production
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/9935b5fc-da79-4f79-a351-46a8c0222560"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
+<a href="https://reporting.avniproject.org/question/4842" target="_blank" rel="noopener noreferrer">Latest ETL run details for all organisations, production</a>
 
 ## Staging
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/b44773b9-fdc5-4527-b08f-d2ed06f4ba1c"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
+<a href="https://reporting.avniproject.org/question/4843" target="_blank" rel="noopener noreferrer">Latest ETL run details for all organisations, staging</a>
 
 ## Pre-release
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/206aaaff-a782-490b-ae11-b3e5dfa57823"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
-
-<br />
+<a href="https://reporting.avniproject.org/question/4852" target="_blank" rel="noopener noreferrer">Latest ETL run details for all organisations, pre-release</a>
 
 ## RWB Prod
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/577f98e4-22eb-461b-a94c-a3528ee68c18"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
+<a href="https://reporting.avniproject.org/question/5159" target="_blank" rel="noopener noreferrer">Latest ETL run details for all organisations, RWB production</a>
 
-To specifically look at the **Failed** ETL for Production Environment  Live/ UAT orgs, you should make use of following report:
+To look only at **failed** ETL runs for production Live and UAT organisations, use:
 
-## Production ETL Failures only
+## Production ETL failures only
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/ba0ba126-c94a-4a52-acea-b2f518172527"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
+<a href="https://reporting.avniproject.org/question/4840" target="_blank" rel="noopener noreferrer">Latest ETL run failures, production Live and UAT organisations</a>
