@@ -178,6 +178,8 @@ Avni allows the display of custom filter in **Search** and **My Dashboard filter
   </tbody>
 </Table>
 
+Search Filters can also have a **Program** filter, for the Data Entry App only. How it works, and how exited and deleted enrolments are treated, is on [Program and Enrolment Filters in Search](doc:program-and-enrolment-filters-in-search).
+
 #### Limitation: Right now we cannot have multiple scopes for a filter, i.e. we cannot search a concept in program encounter and encounter with the same filter.
 
 # Users need to sync the app for getting any of the above changes.
