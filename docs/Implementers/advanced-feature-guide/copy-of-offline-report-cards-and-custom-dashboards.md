@@ -339,6 +339,8 @@ Custom design cards allow implementers to upload an HTML file as the display tem
 
 **Page commands:** from release 18.3, a row on the card's page can open, edit or start the record it points to. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. See [Page commands](#page-commands) under Custom Design Cards further down.
 
+**Full page dashboards:** from release 18.4, a dashboard can show this card's page as the whole dashboard. See [Full page dashboards](#full-page-dashboards) under Custom Design Cards further down.
+
 Sample Data Rule and HTML
 
 **This sample is English only.** Its labels, its empty-table message and its status pills are typed straight into the HTML and the script, so they stay English in every language. To translate a card like this, follow [Translations](#translations) under Custom Design Cards further down. Text the card's script writes needs the steps under "Text the card's script writes".
@@ -1354,7 +1356,9 @@ HTML template receives:
 ```
 
 Return `deferredDataFunction` instead of `data` when building the rows is expensive. The platform
-calls it only when the card is opened, so the dashboard tile does not pay for it.
+calls it only when the card is opened, so the dashboard tile does not pay for it. On a Full page
+dashboard the page is the dashboard, so it runs every time the page recalculates, app open
+included. See [Full page dashboards](#full-page-dashboards).
 
 ```
 {
@@ -1734,11 +1738,126 @@ Point the card at a dashboard other than the one it sits on. When a card opens i
 - For a general visit, leave out the third argument of `startVisit`.
 - Spell the key for `runCardAction` exactly as `locationUUID`.
 
+#### Full page dashboards
+
+From release 18.4, a dashboard can show one Custom Design Card's page as the whole dashboard. An organisation can use it for its own home page, with its logo and the user's work for the day.
+
+**Where to set it.** In App Designer, open the dashboard and set its section's view type to **Full page**. The dashboard must have one section, and that section must hold one Custom Design Card. App Designer does not save a Full page dashboard that breaks this rule, and shows one of these messages:
+
+- "A Full page dashboard has only one section. Remove the other sections, or choose Tile or List."
+- "Full page needs exactly one Custom Design Card in its section."
+
+A Full page section still needs a name, as every section does. The name does not show on the phone. To make the page a user's Home, give the dashboard to the user's group as its primary dashboard.
+
+**What the field user sees.** The card's page fills the dashboard under the app's header and the dashboard's filters. It runs edge to edge and ends above the bottom bar. There is no tile and no section heading. The tile values the rule returns are not used on a full page: its number, subtitle, name and colours show nowhere.
+
+**When the page recalculates.** The card's rule runs again and the page is redrawn:
+
+- the first time the dashboard opens after the app starts;
+- when a filter is changed or cleared;
+- when the user presses refresh;
+- when the user comes back after saving a record started from one of the page's rows.
+
+With auto-refresh on, the page also recalculates on a tab change, and when the user comes back from a dashboard opened from the page. With auto-refresh off, the earlier page stays until one of the four cases above happens. It shows at once with the time it was calculated, and the rule does not run. One more case recalculates with auto-refresh off: a save made on a dashboard that the page's link opened. Coming back from it recalculates the page.
+
+Coming back from a row command without saving does not recalculate the page. This holds on a full page and on the card's own screen.
+
+When a sync brings a changed HTML file for the card, the page recalculates once after the sync and shows the new design.
+
+While the page recalculates, the earlier page stays on screen with a thin bar along its top edge. A screen reader announces "Updating…". On the first open there is no earlier page, so the page area shows "Loading…".
+
+**A slow rule now costs time on Home.** A rule that returns `deferredDataFunction` for its slow part runs that part every time a full page recalculates, app open included. The app does not respond while the rule runs. Keep the rule fast on the largest catchment the dashboard will see.
+
+**Load page.** If the app was closed while the page's rule was running, the next open does not run the rule again. The page area says "This page did not finish loading last time." and shows a **Load page** button. The rule runs when the user taps it. A rule that never finishes cannot lock the user out of Home.
+
+**Errors.** If the rule fails, the page area shows the error, as the card's own screen does. If the page's file has not reached the phone and the phone is offline, the page area says "This page has not downloaded yet. Sync to get it."
+
+**Links.** A link on the page opens the card's target dashboard for a location, as on the card's own screen. See [Page commands](#page-commands). Back returns to the full page, on the same tab.
+
+**Older apps.** An app older than 18.4 shows the dashboard as a list with one row, under the section's name. A tap on the row opens the page, as before.
+
+**Images.** An image drawn inside the HTML file, as a data URI, shows offline. An image loaded from a website needs a network, and is blank without one. Keep an embedded logo under about 500 KB. A simple logo as SVG is under 1 KB. The page is filled again on every recalculation, so a large image slows each one.
+
+**Sample: a home page with the organisation's logo behind it**
+
+The logo in this sample is a made-up mark, drawn as SVG inside the file. Replace the `--logo` value with your own logo as a data URI, and `--brand` with your colour. `--watermark` sets how faint the logo behind the page is. The whole HTML file is 2.2 KB.
+
+**Data rule:**
+
+```javascript
+'use strict';
+({params, imports}) => \{
+    const moment = imports.moment;
+    const today = moment().startOf('day').toDate();
+    const tomorrow = moment().add(1, 'day').startOf('day').toDate();
+    // Names go into the page as HTML, so take out the characters that would break it.
+    const clean = (text) => String(text).replace(/[<>&"'`$\\]/g, '');
+    const visits = params.db.objects('ProgramEncounter')
+        .filtered('voided = false AND encounterDateTime = null AND cancelDateTime = null AND earliestVisitDateTime >= $0 AND earliestVisitDateTime < $1', today, tomorrow);
+    const rows = visits.slice(0, 20).map(visit => ({
+        visitUUID: visit.uuid,
+        name: clean(visit.programEnrolment.individual.nameString),
+        type: clean(visit.encounterType.name),
+    }));
+    return {
+        data: { date: moment().format('dddd, D MMMM'), total: visits.length, rows: rows },
+    };
+\}
+```
+
+**Translations on the card:**
+
+| Translation Key | Default (English) Value |
+|---|---|
+| `due_today` | `{n} visits due today` |
+| `start_visit` | Start |
+
+**HTML template:**
+
+```html
+<style>
+  /* Change these three to rebrand. The logo is drawn inside the file, so it shows offline. */
+  :root {
+    --brand: #1F5FAD;
+    --watermark: 0.05;   /* 0 turns the logo behind the page off */
+    --logo: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiI+PGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDYiIGZpbGw9IiMxRjVGQUQiLz48dGV4dCB4PSI0OCIgeT0iNjEiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjM4IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIj5BQjwvdGV4dD48L3N2Zz4=");
+  }
+  body { margin: 0; font-family: sans-serif; font-size: 15px; color: #1f2933; background: #ffffff; }
+  .wm { position: fixed; right: 12px; bottom: 12px; width: 46vw; max-width: 220px; aspect-ratio: 1;
+        background: var(--logo) center / contain no-repeat; opacity: var(--watermark); z-index: -1; pointer-events: none; }
+  .page { padding: 0 14px 36px; }
+  .head { display: flex; align-items: center; gap: 12px; padding: 14px 0 12px; border-bottom: 3px solid var(--brand); }
+  .logo { flex: 0 0 auto; width: 40px; height: 40px; background: var(--logo) center / contain no-repeat; }
+  h1 { margin: 0; font-size: 19px; color: var(--brand); }
+  .row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #e4e9ef; }
+  .who { flex: 1; min-width: 0; }
+  .who small { display: block; color: #4b5866; }
+  .go { min-height: 44px; padding: 8px 16px; border: 0; border-radius: 22px; background: var(--brand); color: #ffffff; font: inherit; }
+</style>
+<div class="wm" aria-hidden="true"></div>
+<div class="page">
+  <div class="head"><div class="logo" aria-hidden="true"></div><h1>${data.date}</h1></div>
+  <p>${translations.due_today.replace('{n}', data.total)}</p>
+  ${data.rows.map(row =>
+    '<div class="row"><div class="who">' + row.name + '<small>' + row.type + '</small></div>'
+    + '<button class="go" data-visit="' + row.visitUUID + '">' + translations.start_visit + '</button></div>'
+  ).join('')}
+</div>
+<script>
+  document.addEventListener('click', function (event) {
+    var visit = event.target.getAttribute && event.target.getAttribute('data-visit');
+    if (visit && typeof avni !== 'undefined') { avni.editVisit(visit); }
+  });
+</script>
+```
+
+A tap on **Start** opens the visit, because `avni.editVisit` opens a planned visit to be done. See [Page commands](#page-commands).
+
 #### Things to Avoid
 
 - **Backticks** — the HTML is wrapped in backticks. A stray \`\`\` in your HTML will break evaluation. Use `&#96;` for backtick characters.
 - **Backtick strings inside scripts** — inside `<script>` tags, build strings with `+` rather than backtick template literals, which clash with the outer template. `${...}` itself is fine inside a script and is how data and translations reach it: `${JSON.stringify(data.rows)}`, `${JSON.stringify(translations["KEY"])}`.
-- **Heavy computations in the data rule** — the rule runs every time the dashboard loads, once per card. Keep it fast with indexed queries, and move expensive row-building into `deferredDataFunction`, which only runs when the card is opened.
+- **Heavy computations in the data rule** — the rule runs every time the dashboard loads, once per card. Keep it fast with indexed queries, and move expensive row-building into `deferredDataFunction`, which only runs when the card is opened. On a Full page dashboard it runs on every recalculation of the page.
 - **Hard-coded English in the template** — a string typed straight into the HTML stays English in every language. Put it behind `${translations.KEY}`. The same goes for a string the script writes: `'Total Approved: Rs ' + total` stays English. Put it behind `tr("Total Approved")` (see [Text the card's script writes](#translations)).
 
 #### Complete Example
