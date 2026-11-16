@@ -10,68 +10,48 @@ metadata:
 next:
   description: ''
 ---
-In-order to ease the monitoring of ETL runs across all organisations of an environment, we have created following Reports:
+To monitor ETL runs across all organisations of an environment, use the reports below. Each opens in Metabase in a new window, and you need to sign in to Metabase to see it. Staging and Pre-release have a query instead of a report.
 
 ## Production
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/9935b5fc-da79-4f79-a351-46a8c0222560"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
+<a href="https://reporting.avniproject.org/question/4842" target="_blank" rel="noopener noreferrer">Latest ETL run details for all organisations, production</a>
 
-## Staging
+## Staging and Pre-release
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/b44773b9-fdc5-4527-b08f-d2ed06f4ba1c"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
+There is no report for these two environments. To see the latest ETL run for each organisation, run this query on that environment's database:
 
-## Pre-release
-
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/206aaaff-a782-490b-ae11-b3e5dfa57823"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
-
-<br />
+```sql
+select organisation, category, status, last_run_start, last_run_end, success, last_successful_run, error_message from
+    (select concat(og.name, ' ' , o.name) organisation,
+            qjd.job_group as job_group,
+            oc.id as oc_id,
+            oc.name category,
+            os.id as os_id,
+            os.name status,
+            to_char(sjr.started_at at time zone 'Asia/Kolkata', 'yyyy-mm-dd HH24:mi') last_run_start,
+            to_char(sjr.ended_at at time zone 'Asia/Kolkata', 'yyyy-mm-dd HH24:mi') last_run_end,
+            max(to_char(sjr.started_at at time zone 'Asia/Kolkata', 'yyyy-mm-dd HH24:mi')) filter ( where success = true ) over (partition by sjr.job_name) last_successful_run,
+            sjr.success, sjr.error_message, rank() over (partition by sjr.job_name order by started_at desc ) rnk
+     from scheduled_job_run sjr
+              join qrtz_job_details qjd on sjr.job_name = qjd.job_name
+              left join organisation o on sjr.job_name = o.uuid
+              left join organisation_group og on sjr.job_name = og.uuid
+              left join organisation_category oc on oc.id = o.category_id
+              left join organisation_status os on os.id = o.status_id
+     where sjr.started_at > current_timestamp - interval '1 month'
+    ) a
+where rnk = 1
+  and coalesce(TRIM(organisation), '') <> ''
+  and job_group = 'SyncJobs'
+order by last_successful_run desc;
+```
 
 ## RWB Prod
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/577f98e4-22eb-461b-a94c-a3528ee68c18"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
+<a href="https://reporting.avniproject.org/question/5159" target="_blank" rel="noopener noreferrer">Latest ETL run details for all organisations, RWB production</a>
 
-To specifically look at the **Failed** ETL for Production Environment  Live/ UAT orgs, you should make use of following report:
+To look only at **failed** ETL runs for production Live and UAT organisations, use:
 
-## Production ETL Failures only
+## Production ETL failures only
 
-<HTMLBlock>{`
-<iframe
-    src="https://reporting.avniproject.org/public/question/ba0ba126-c94a-4a52-acea-b2f518172527"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
-`}</HTMLBlock>
+<a href="https://reporting.avniproject.org/question/4840" target="_blank" rel="noopener noreferrer">Latest ETL run failures, production Live and UAT organisations</a>
