@@ -1731,7 +1731,8 @@ Point the card at a dashboard other than the one it sits on. When a card opens i
 
 **Rules for the page:**
 
-- Call a command only from the user's tap, in an `onclick` or a click listener. A command called before the user has touched the page does nothing.
+- Call a command only from something the user does on the page: a tap, in an `onclick` or a click listener, or a pick in a dropdown, in its `change` listener.
+- A command also runs up to 1.5 seconds after that tap or pick, for example after a short animation. A command called later, after a swipe or a long press, before the user has touched the page, or from the page's own timer does nothing. The field app's log says why.
 - Do not check for `avni` while the page loads. The `avni` object can arrive after the page's own scripts have run.
 - Do not define anything named `avni` on the page. A page that has its own `avni` keeps it and gets no commands.
 - In an `onclick`, put each id in quotes, as the first sample does.
