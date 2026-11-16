@@ -339,7 +339,7 @@ Custom design cards allow implementers to upload an HTML file as the display tem
 
 **Page commands:** from release 18.3, a row on the card's page can open, edit or start the record it points to. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. See [Page commands](#page-commands) under Custom Design Cards further down.
 
-**Full page dashboards:** from release 18.4, a dashboard can show this card's page as the whole dashboard. See [Full page dashboards](#full-page-dashboards) under Custom Design Cards further down.
+**Full page dashboards:** from release 18.3, a dashboard can show this card's page as the whole dashboard. See [Full page dashboards](#full-page-dashboards) under Custom Design Cards further down.
 
 Sample Data Rule and HTML
 
@@ -1740,7 +1740,7 @@ Point the card at a dashboard other than the one it sits on. When a card opens i
 
 #### Full page dashboards
 
-From release 18.4, a dashboard can show one Custom Design Card's page as the whole dashboard. An organisation can use it for its own home page, with its logo and the user's work for the day.
+From release 18.3, a dashboard can show one Custom Design Card's page as the whole dashboard. An organisation can use it for its own home page, with its logo and the user's work for the day.
 
 **Where to set it.** In App Designer, open the dashboard and set its section's view type to **Full page**. The dashboard must have one section, and that section must hold one Custom Design Card. App Designer does not save a Full page dashboard that breaks this rule, and shows one of these messages:
 
@@ -1774,7 +1774,7 @@ While the page recalculates, the earlier page stays on screen with a thin bar al
 
 **Links.** A link on the page opens the card's target dashboard for a location, as on the card's own screen. See [Page commands](#page-commands). Back returns to the full page, on the same tab.
 
-**Older apps.** An app older than 18.4 shows the dashboard as a list with one row, under the section's name. A tap on the row opens the page, as before.
+**Older apps.** An app older than 18.3 shows the dashboard as a list with one row, under the section's name. A tap on the row opens the page, as before.
 
 **Images.** An image drawn inside the HTML file, as a data URI, shows offline. An image loaded from a website needs a network, and is blank without one. Keep an embedded logo under about 500 KB. A simple logo as SVG is under 1 KB. The page is filled again on every recalculation, so a large image slows each one.
 
