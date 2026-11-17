@@ -31,6 +31,8 @@ This page explains how search treats a subject's program enrolments: which subje
 2. **Program** is offered only for a subject type that enrols into at least one program, which means a Program Enrolment form is mapped to it. It is not offered for My Dashboard filters.
 3. A subject type can have one Program filter. Once it has one, **Program** is no longer offered for that subject type, except while you edit that same filter.
 
+![App Designer, Search Filters: adding a filter of type Program for a subject type](https://github.com/user-attachments/assets/ebac2108-771e-495c-89c2-3ca668b7548e)
+
 # Using the Program filter
 
 On the search screen, after you choose the subject type, the Program filter shows:
@@ -38,6 +40,8 @@ On the search screen, after you choose the subject type, the Program filter show
 - one tick box for each program the subject type enrols into
 - a **Not enrolled in any program** toggle
 - an **Include exited** toggle
+
+![Data Entry App search: program tick boxes, with the Not enrolled in any program and Include exited toggles on the row below](https://github.com/user-attachments/assets/6e623971-20d6-4524-aa9e-e090d76bb6ba)
 
 **Include exited** never narrows the results on its own. It adds subjects whose enrolment has ended to whatever else is on.
 
@@ -51,7 +55,7 @@ On the search screen, after you choose the subject type, the Program filter show
 | Programs + Not enrolled in any program | Both groups together. With Include exited on, each group also includes subjects whose enrolment has ended. |
 | Include exited alone | No subject is left out by the Program filter. Exited enrolments count in the enrolment-level filters below, and show in the Enrolments column. |
 
-- Both toggles can be on together. The search screen shows a short note under them saying what Include exited does.
+- Both toggles can be on together. Hovering over either toggle shows a tooltip saying what it does.
 - A subject who is enrolled in one program and has exited another still has a current enrolment, so they are not found by **Not enrolled in any program**, even with **Include exited** on.
 - A subject whose only enrolment was deleted counts as never enrolled, so **Not enrolled in any program** finds them.
 - **Include exited** alone finds the same subjects as nothing ticked. It changes the results only together with an enrolment-level filter, such as Enrolment Date or an enrolment answer, where exited enrolments then count. It also shows exited programs in the Enrolments column.
@@ -87,6 +91,8 @@ When programs are ticked in the Program filter, the enrolment-level filters look
 - answers on enrolment forms found by **Search All**
 
 For example, with Pregnancy ticked and a Program Encounter Date range, only Pregnancy visits are checked. A Child visit in the same range does not make the subject match. With no program ticked, every program counts. Registration answers and the subject's name are not affected.
+
+![Search with a program ticked and a Program Encounter Date range: only visits in the ticked program are checked](https://github.com/user-attachments/assets/b87f8a2d-9b14-4bf7-bb19-cf7a797c858a)
 
 # How enrolment-level filters combine
 
