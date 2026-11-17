@@ -78,7 +78,7 @@ The hub shows a code to scan, with the name and password of its Wi-Fi network. I
 
 After its first sync with the hub, the phone goes back to the Home screen. The **Camp mode** screen then shows **Joined to** the hub's network, when the phone last synced with the hub, and that the phone is in a camp. A joined phone syncs with the hub every 30 seconds while Avni is open. To sync at once, tap **Sync with hub**.
 
-<Image align="center" width="216px" alt="A joined phone in a camp, with Sync with hub and Leave camp" src="https://github.com/user-attachments/assets/1f335482-2c17-44b4-a2d3-7d85b0cf3755" />
+<Image align="center" width="216px" alt="A joined phone in a camp, with Sync with hub and Leave camp" src="https://github.com/user-attachments/assets/2389fcb4-41ea-4f3d-88f0-ac48ca1af699" />
 
 ## Joining by hand on older phones
 
@@ -102,7 +102,7 @@ These phones also join by hand again after the hub restarts, and when **Rejoin**
 
 A phone that walks out of range loses the hub's network. The screen says the phone lost the hub's Wi-Fi, and offers **Rejoin** with the hub's name. Tap it when the phone is back in range.
 
-<Image align="center" width="216px" alt="Rejoin and Scan a new code" src="https://github.com/user-attachments/assets/e3f0c23a-3bd0-42df-85cd-535cfd1e643f" />
+<Image align="center" width="216px" alt="Rejoin and Scan a new code" src="https://github.com/user-attachments/assets/07df4fc7-e9ea-4f90-9156-662967e0f180" />
 
 If Android closes Avni in the background, the phone also stops sharing. For example, it can close Avni while the phone's camera app is open for a photo. Open **Camp mode** and tap **Rejoin**.
 
@@ -112,7 +112,7 @@ If the hub phone restarts, or Android closes Avni on it, the hub starts again by
 
 **Rejoin** cannot find the old network. Android may say that no devices were found. Tap **Cancel**. The screen then says the phone could not join, and suggests scanning the new code. Tap **Scan a new code** and scan the code on the hub. Records shared before the restart stay on the phones.
 
-<Image align="center" width="216px" alt="Could not join the old network, with the suggestion to scan the new code" src="https://github.com/user-attachments/assets/30aad166-c7ce-4ece-94cf-96eb3ace0c96" />
+<Image align="center" width="216px" alt="Could not join the old network, with the suggestion to scan the new code" src="https://github.com/user-attachments/assets/d4da0a07-2a4f-4f7c-afee-57d7bfe6f1db" />
 
 If the hub stops and does not start again, its screen says the camp is still on. Tap **Start hub** to carry on. Each phone then scans the new code.
 
@@ -146,7 +146,7 @@ A record from another phone belongs to that phone. That phone uploads it to the 
 
 * The **Camp mode** screen shows how many records are waiting.
 
-<Image align="center" width="216px" alt="Records waiting to upload until records from other phones reach the server" src="https://github.com/user-attachments/assets/d97c9f86-6fc9-4f35-abe5-a9817a3f6315" />
+<Image align="center" width="216px" alt="Records waiting to upload until records from other phones reach the server" src="https://github.com/user-attachments/assets/d27ce502-5cfe-4599-917c-ae3ee4944b58" />
 
 * When this phone next syncs with the server and finds the subject there, it uploads the waiting records in the same sync.
 * If a record waits more than 3 days, the screen names the record it is waiting on. Ask the user of the phone that made that record to sync with the server, leaving the camp first if that phone is still in one.
