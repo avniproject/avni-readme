@@ -127,6 +127,21 @@ The results table has an **Enrolments** column with one chip per program the sub
 - Deleted enrolments, and programs that have been deleted from the organisation, don't show.
 - The chip uses the program's name as set up for the organisation.
 
+# Programs and encounter types chosen on a concept filter
+
+When you add a concept filter in App Designer, you can choose programs and encounter types for it. Search uses them, in the Data Entry App and on the phone:
+
+| Filter scope | What the filter looks at |
+|---|---|
+| Program Enrolment | Enrolments in the chosen programs |
+| Program Encounter | Visits of the chosen encounter types, in the chosen programs |
+| Encounter | Visits of the chosen encounter types |
+| Registration | The registration answers. Programs and encounter types don't apply. |
+
+- The answer and the program or encounter type must be on the same enrolment or visit. For example, a filter on Informed Consent Time with the Screening encounter type doesn't match the same answer recorded on a Confirmation visit.
+- With no programs or encounter types chosen, the filter looks at every enrolment or visit of its scope.
+- If the programs or encounter types are changed in App Designer, a search saved earlier uses the new ones after a refresh.
+
 # Concept types that can be searched
 
 Concept filters work for the types the phone supports: Coded, Text, Id, Notes, Numeric, Date, DateTime and Time. App Designer offers only these types for Search Filters. A filter saved earlier on another type, such as NA, is ignored by search and does not stop the search screen from opening.
