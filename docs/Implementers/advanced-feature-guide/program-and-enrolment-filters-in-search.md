@@ -41,7 +41,7 @@ On the search screen, after you choose the subject type, the Program filter show
 - a **Not enrolled in any program** toggle
 - an **Include exited** toggle
 
-![Data Entry App search: program tick boxes, with the Not enrolled in any program and Include exited toggles on the row below](https://github.com/user-attachments/assets/6e623971-20d6-4524-aa9e-e090d76bb6ba)
+![Data Entry App search: program tick boxes, with the Not enrolled in any program and Include exited toggles on the row below, each with a question-mark tooltip](https://github.com/user-attachments/assets/97b99beb-041d-4dc0-98a9-fc32276e9b69)
 
 **Include exited** never narrows the results on its own. It adds subjects whose enrolment has ended to whatever else is on.
 
@@ -55,7 +55,7 @@ On the search screen, after you choose the subject type, the Program filter show
 | Programs + Not enrolled in any program | Both groups together. With Include exited on, each group also includes subjects whose enrolment has ended. |
 | Include exited alone | No subject is left out by the Program filter. Exited enrolments count in the enrolment-level filters below, and show in the Enrolments column. |
 
-- Both toggles can be on together. Hovering over either toggle shows a tooltip saying what it does.
+- Both toggles can be on together. Hovering over the question mark next to either toggle shows what it does.
 - A subject who is enrolled in one program and has exited another still has a current enrolment, so they are not found by **Not enrolled in any program**, even with **Include exited** on.
 - A subject whose only enrolment was deleted counts as never enrolled, so **Not enrolled in any program** finds them.
 - **Include exited** alone finds the same subjects as nothing ticked. It changes the results only together with an enrolment-level filter, such as Enrolment Date or an enrolment answer, where exited enrolments then count. It also shows exited programs in the Enrolments column.
