@@ -1723,7 +1723,7 @@ On a tap:
 - If the card's dashboard has no location filter, it opens without the location.
 - On a card whose action is not **Open dashboard**, `runCardAction` does nothing.
 
-Point the card at a dashboard other than the one it sits on. When a card opens its own dashboard, the link's location stays as that dashboard's saved location.
+Point the card at a dashboard other than the one it sits on. A dashboard keeps one set of saved filters, even when it is open twice. When a card opens its own dashboard, the link's location stays as that dashboard's saved location. When a link opens a dashboard that is already open further back, back to that first copy shows the link's location too.
 
 **Rules for the page:**
 
@@ -1731,6 +1731,7 @@ Point the card at a dashboard other than the one it sits on. When a card opens i
 - Do not check for `avni` while the page loads. The `avni` object can arrive after the page's own scripts have run.
 - Do not define anything named `avni` on the page. A page that has its own `avni` keeps it and gets no commands.
 - In an `onclick`, put each id in quotes, as the first sample does.
+- Pass each id exactly as the data rule gives it. An id with any letter changed to a capital is not found, and the command shows "This record is not on this phone".
 - For a general visit, leave out the third argument of `startVisit`.
 - Spell the key for `runCardAction` exactly as `locationUUID`.
 
