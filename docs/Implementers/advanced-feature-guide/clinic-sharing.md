@@ -48,11 +48,11 @@ Each phone shows only the records its user is allowed to see, as with sync. Unfi
 1. In the web app, open the organisation settings page.
 2. Turn on **Enable camp mode**.
 
-![Organisation settings in the web app, with Enable camp mode turned on](https://github.com/user-attachments/assets/bfd22bbb-ba63-42db-966e-2eb0b11a6676)
+![Organisation settings in the web app, with Enable camp mode turned on](https://github.com/user-attachments/assets/6455cca1-dfac-4516-8366-bbdb4f749842)
 
 3. Ask each user to sync their phone. After the sync, **Camp mode** appears in the app's **More** menu.
 
-<Image align="center" width="216px" alt="More menu with Camp mode" src="https://github.com/user-attachments/assets/b0d80acd-26f2-4f0d-aa67-d8ae3b7bbd87" />
+<Image align="center" width="216px" alt="More menu with Camp mode" src="https://github.com/user-attachments/assets/0466848d-e7b8-44a3-994e-6ac3903f1bf8" />
 
 ## Starting the hub
 
@@ -60,11 +60,11 @@ Each phone shows only the records its user is allowed to see, as with sync. Unfi
 2. Under **Make this phone the hub**, tap **Start hub**.
 3. Allow the permissions Android asks for.
 
-<Image align="center" width="216px" alt="Camp mode screen with Make this phone the hub and Start hub" src="https://github.com/user-attachments/assets/b91f1be8-fa23-4315-96f9-755a31df730b" />
+<Image align="center" width="216px" alt="Camp mode screen with Make this phone the hub and Start hub" src="https://github.com/user-attachments/assets/7e8eae1e-2b3c-4740-890e-a3d4f23bf138" />
 
 The hub shows a code to scan, with the name and password of its Wi-Fi network. It also shows how many phones synced with it in the last 5 minutes. Below that it lists every phone by its user and phone model, with when it last synced.
 
-<Image align="center" width="216px" alt="A running hub showing its code, network name and password, phones synced in the last 5 minutes, and End camp" src="https://github.com/user-attachments/assets/f7767d47-3cc7-4a1d-b0b8-24ce5e13fe77" />
+<Image align="center" width="216px" alt="A running hub showing its code, network name and password, phones synced in the last 5 minutes, and End camp" src="https://github.com/user-attachments/assets/47e825ea-bab3-4ce0-a652-ebfa0d2f0f54" />
 
 ## Joining the hub
 
@@ -72,7 +72,7 @@ The hub shows a code to scan, with the name and password of its Wi-Fi network. I
 2. Tap **Scan to join**.
 3. Point the camera at the code on the hub phone.
 
-<Image align="center" width="216px" alt="Scanning the hub's code" src="https://github.com/user-attachments/assets/eeb43c42-49d8-4b72-a720-f07332fd82af" />
+<Image align="center" width="216px" alt="Scanning the hub's code" src="https://github.com/user-attachments/assets/d35f0a47-1c98-4ba7-b197-1effeef0a9dc" />
 
 4. If Android asks to connect to the hub's network, tap **Connect**.
 
@@ -121,7 +121,7 @@ If the hub stops and does not start again, its screen says the camp is still on.
 1. When the camp is over, tap **End camp** on the hub.
 2. The hub asks first. Tap **End camp** again to confirm. This cannot be undone.
 
-<Image align="center" width="216px" alt="The hub asking to confirm End camp" src="https://github.com/user-attachments/assets/3da947ba-d93d-4f6d-9008-aa359c75c302" />
+<Image align="center" width="216px" alt="The hub asking to confirm End camp" src="https://github.com/user-attachments/assets/9fbc044a-2be8-4cf2-af7c-0ff2c60d0b4f" />
 
 3. Leave the hub running, and keep Avni open on every phone. At its next sync, each phone does one last sync with the hub, then leaves the camp. Its screen says the hub ended the camp, and that it can sync with the server again.
 4. The hub ticks off each phone as it leaves. If a phone is switched off, gone, or already left with **Leave camp**, tap **Skip** under its name. A skipped phone is still in the camp until its user opens **Camp mode** and taps **Leave camp**.
