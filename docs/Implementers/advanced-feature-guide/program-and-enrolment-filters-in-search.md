@@ -52,6 +52,10 @@ On the search screen, after you choose the subject type, the Program filter show
 | Include exited alone | No subject is left out by the Program filter. Exited enrolments count in the enrolment-level filters below, and show in the Enrolments column. |
 
 - Both toggles can be on together. The search screen shows a short note under them saying what Include exited does.
+- A subject who is enrolled in one program and has exited another still has a current enrolment, so they are not found by **Not enrolled in any program**, even with **Include exited** on.
+- A subject whose only enrolment was deleted counts as never enrolled, so **Not enrolled in any program** finds them.
+- **Include exited** alone finds the same subjects as nothing ticked. It changes the results only together with an enrolment-level filter, such as Enrolment Date or an enrolment answer, where exited enrolments then count. It also shows exited programs in the Enrolments column.
+- There is no option to find only the subjects who have exited a program. Tick the program with **Include exited** on, and look for the "· Exited" chips in the Enrolments column.
 - The Program filter applies together with every other filter. For example, a ticked program and a gender return subjects that match both.
 - The ticked programs and both toggles are kept when the page is refreshed, along with the rest of the search.
 
