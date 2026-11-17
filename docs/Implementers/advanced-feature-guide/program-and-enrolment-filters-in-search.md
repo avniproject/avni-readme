@@ -39,16 +39,19 @@ On the search screen, after you choose the subject type, the Program filter show
 - a **Not enrolled in any program** toggle
 - an **Include exited** toggle
 
+**Include exited** never narrows the results on its own. It adds subjects whose enrolment has ended to whatever else is on.
+
 | What is on | Subjects found |
 |---|---|
 | Nothing | The Program filter is ignored. |
 | One or more programs | Subjects with an enrolment in at least one of the ticked programs that they have not exited |
 | Programs + Include exited | Subjects with an enrolment in at least one of the ticked programs, exited or not |
-| Include exited alone | Subjects who have exited at least one program |
-| Not enrolled in any program alone | Subjects with no enrolment in any program. A subject who enrolled and later exited still counts as enrolled. |
-| Programs + Not enrolled in any program | Subjects in at least one of the ticked programs, plus subjects in no program |
+| Not enrolled in any program | Subjects who have never been enrolled in any program. A subject who enrolled and later exited still counts as enrolled. |
+| Not enrolled in any program + Include exited | Subjects with no current enrolment: never enrolled, or exited from every program they were enrolled in |
+| Programs + Not enrolled in any program | Both groups together. With Include exited on, each group also includes subjects whose enrolment has ended. |
+| Include exited alone | No subject is left out by the Program filter. Exited enrolments count in the enrolment-level filters below, and show in the Enrolments column. |
 
-- **Not enrolled in any program** and **Include exited** can't be on together. Turning one on greys out the other. If a saved search or an API request has both, Include exited is kept and Not enrolled in any program is ignored.
+- Both toggles can be on together. The search screen shows a short note under them saying what Include exited does.
 - The Program filter applies together with every other filter. For example, a ticked program and a gender return subjects that match both.
 - The ticked programs and both toggles are kept when the page is refreshed, along with the rest of the search.
 
@@ -99,7 +102,7 @@ On the phone, each filter is checked on its own, and a subject matches when ever
 
 # Date and time answers
 
-- **DateTime concept filters** in the Data Entry App search by date only. Any time picked in the filter is ignored. A DateTime answer matches when it falls on the chosen date, or within the chosen dates for a range, in the user's time zone.
+- **DateTime concept filters** in the Data Entry App search by date only, and the filter asks for a date. A DateTime answer matches when it falls on the chosen date, or within the chosen dates for a range, in the user's time zone.
 - On the phone, a DateTime filter with one value matches only an answer with exactly that date and time, and a range compares the full date and time.
 - **Date and Time concept filters** compare the date or the time as stored.
 - A stored answer that isn't a valid date, date-time or time is skipped, so it doesn't match and doesn't stop the search.
