@@ -168,7 +168,7 @@ Avni allows the display of custom filter in **Search** and **My Dashboard filter
       </td>
 
       <td style={{ textAlign: "left" }}>
-        Text fields in all the core fields and observations in Registration and Program enrolment
+        The subject's name, and answers on the registration and enrolment forms. Not visit answers. See [Search All](doc:program-and-enrolment-filters-in-search#search-all)
       </td>
 
       <td style={{ textAlign: "left" }}>

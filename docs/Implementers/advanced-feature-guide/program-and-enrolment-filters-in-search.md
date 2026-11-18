@@ -127,6 +127,34 @@ The results table has an **Enrolments** column with one chip per program the sub
 - Deleted enrolments, and programs that have been deleted from the organisation, don't show.
 - The chip uses the program's name as set up for the organisation.
 
+# Search All
+
+**Search All** is a single text box that searches several places at once.
+
+**What it looks at**
+- The subject's name. First, middle and last name are matched as one string, so "Sunita Rao" finds Sunita Kumari Rao only if the words are next to each other, as in "Kumari Rao".
+- Answers on the subject's registration form.
+- Answers on the subject's enrolment forms.
+
+It does **not** look at answers recorded in visits (encounters or program encounters). To search visit answers, add a concept filter with Encounter or Program Encounter scope.
+
+**How it matches**
+- **Text:** any part of the answer or name, ignoring case. "ita" finds Sunita.
+- **Numbers:** any part of the number. "98765" finds 9876543210, and "8.6" finds 8.6 and 8.65. When no column is sorted, subjects with an exact match (8.6) are listed before partial matches (8.65).
+- **Words** are not ranked: when no column is sorted, a whole-word match is not moved to the top.
+- Spaces at the start or end of the typed text are ignored. Text of only spaces is not searched.
+- Coded answers are not matched by their answer IDs. Typing part of an ID doesn't find anyone.
+
+**Enrolments it looks at**
+- Deleted enrolments are never searched.
+- Exited enrolments are searched only when **Include exited** is on.
+- When programs are ticked in the Program filter, only enrolments in those programs are searched. Registration answers and the name are always searched.
+
+**On the phone**
+- The phone's Search All also looks at the name, registration answers and enrolment answers, and not at visit answers.
+- The phone searches exited enrolments too, because it has no Include exited option.
+- The phone doesn't list exact number matches first.
+
 # Programs and encounter types chosen on a concept filter
 
 When you add a concept filter in App Designer, you can choose programs and encounter types for it. Search uses them, in the Data Entry App and on the phone:
