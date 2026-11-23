@@ -18,7 +18,7 @@ Creating a new card is no different than creating any other Avni entity. Open ap
 Cards can be of 4 types:
 
 1. **Standard Report Card** — Built-in logic for common use cases (scheduled visits, overdue, approvals, etc.)
-2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit, or mark attendance)
+2. **Custom Data Card** — A query-based card with configurable actions (view subject profile, do visit or mark attendance; from release 18.3, also open dashboard)
 3. **Nested Report Card** — A single query that renders up to 9 sub-cards
 4. **Custom Design Card** — A fully custom card rendered using an uploaded HTML template with dynamic data
 
@@ -71,7 +71,7 @@ Subject Type, Program and Encounter Type filters are supported for 'Overdue Visi
 
 <br />
 
-Filters can also be configured at the dashboard level (covered below). If a filter is configured both at the report card level and the dashboard level, the filter at the report card level is applied first. Hence, mixing of the same type of filter at both levels should be avoided as it could lead to the unintuitive behaviour of the field user selecting a value, say 'Household' for the subject type filter at the dashboard level but still seeing the numbers for the 'Individual' subject type which is configured at the report card level.
+Filters can also be configured at the dashboard level (covered below). When a card has its own subject type and the dashboard's Subject Type filter is set too, both apply. For example, a card set to one subject type shows 0 once the user picks another subject type in the dashboard's Subject Type filter. So avoid setting the same filter at both levels.
 
 ### 2. Custom Data Cards
 
@@ -79,11 +79,12 @@ Custom data cards are query-based cards where the implementer writes the logic. 
 
 #### Action Configuration
 
-When creating a custom data card (with "Is Standard Report Card?" disabled), an **Action** dropdown appears with three options:
+When **Custom Data Card** is the card type, an **Action** dropdown appears with these options:
 
 - **View subject profile** (default) — Opens the subject's profile on tap
 - **Do visit** — Opens an encounter form on tap
 - **Mark attendance** — Opens the attendance sheet for a class, pre-selected to one attendance type for today (requires the [Attendance](doc:attendance) feature)
+- **Open dashboard** — From release 18.3, opens another dashboard on tap, with filters the two dashboards share carried over (see [Open Dashboard Action](#open-dashboard-action))
 
 #### View Subject Profile (Default Action)
 
@@ -287,6 +288,44 @@ When **Mark attendance** is selected, these configuration fields appear:
 };
 ```
 
+#### Open Dashboard Action
+
+From release 18.3, this action takes the user from one dashboard to another in one tap. Filters the two dashboards share are carried over, so the user does not choose them again.
+
+It is set in App Designer. Open the card from the **Card** tab and choose **Open dashboard** in its **Action** dropdown. When **Open dashboard** is selected, this field appears:
+
+| Field         | Required | Description                                                                            |
+| ------------- | -------- | -------------------------------------------------------------------------------------- |
+| **Dashboard** | Yes      | The dashboard the card opens. The picker lists the organisation's dashboards by name |
+
+Saving with no dashboard picked shows "Dashboard is required for Open dashboard action", and the card is not saved.
+
+**Cards that offer it:**
+
+- A **Custom Data Card** offers it as the fourth action in the list above.
+- **Custom Design Card**. Its **Action** dropdown offers **No action** and **Open dashboard**. A tap on its tile still opens the card's own page. A link on that page opens the dashboard (see [Page commands](#page-commands)).
+- A **Nested Report Card** does not offer it.
+
+**Behaviour on the field app:**
+
+- Tapping a Custom Data Card opens the chosen dashboard on its own screen. The screen has a back arrow and the dashboard's name as its title.
+- The dashboard has its usual **FILTER** button and the bar of applied filters.
+- Back returns to the dashboard the user came from, with its own cards, counts and filters.
+- A tile opens the dashboard on tap whether its query returns a list of subjects or only a number. The query's list of subjects is not shown.
+
+**Who can open it:**
+
+- Assign the chosen dashboard to the user groups of the users who tap the card. See [Assigning custom Dashboards to User Groups](#assigning-custom-dashboards-to-user-groups).
+- For a user whose groups do not have it, tapping the tile shows "This dashboard is not available to you", and nothing opens.
+
+**Filters that carry over:**
+
+- Filters the two dashboards share carry over to the dashboard that opens.
+- Location, date range, as-on date and subject type filters carry over when the opened dashboard has the same filter.
+- If the opened dashboard's Subject Type filter has a [preset](#preset-on-the-subject-type-filter), it keeps its preset.
+- A filter that only the opened dashboard has is left as it was.
+- The carried values become the opened dashboard's saved filters. Opening it later from **Dashboards** in the **More** tab shows the same values.
+
 ### 3. Custom Design Cards
 
 Custom design cards allow implementers to upload an HTML file as the display template for a fully custom card. This enables org-specific layouts (tables, styling, sections) without being constrained by the fixed Avni card UI.
@@ -297,6 +336,10 @@ Custom design cards allow implementers to upload an HTML file as the display tem
 2. **Data Rule** (optional): A JS rule that returns dynamic data for the HTML template. Input/output follows the same pattern as other card rules — dashboard filters are passed as input, and the rule returns a `data` object whose keys are reachable in the HTML as `data.variableName`. If `primaryValue`/`secondaryValue` are returned, they show on the card tile. If `name` or `colors` are returned, they override the tile's name and colours.
 3. **HTML File** (required): Upload an HTML file defining the custom layout. Saving without an HTML file shows a validation error. Saving without a data rule is allowed.
 4. **Translations** (optional): Key and English value pairs the HTML template can reference as `${translations.KEY}`. See [Translations](#translations) below.
+
+**Page commands:** from release 18.3, a row on the card's page can open, edit or start the record it points to. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. See [Page commands](#page-commands) under Custom Design Cards further down.
+
+**Full page dashboards:** from release 18.3, a dashboard can show this card's page as the whole dashboard. See [Full page dashboards](#full-page-dashboards) under Custom Design Cards further down.
 
 Sample Data Rule and HTML
 
@@ -544,6 +587,40 @@ You can also create filters for a dashboard on the same screen by clicking on "A
 
 Once all the changes are done. Save the dashboard.
 
+#### Preset on the Subject Type filter
+
+From release 18.3, a Subject Type filter can carry a preset: a subject type, and optionally one of its programs.
+
+Set it in the filter popup. When the filter's **Type** is Subject Type, the popup shows a **Preset subject type** field. Once a subject type is chosen there, a **Preset program** field appears. Both fields are optional.
+
+{/* upload `subject-type-filter-preset-config.png` — App Designer filter popup with Type = "Subject Type", a subject type chosen in "Preset subject type" and one of its programs chosen in "Preset program" */}
+
+On the dashboard's **Show Offline Dashboard** page, the filters table shows the preset in its **Subject Type** column, as "Preset:" followed by the subject type.
+
+**Behaviour on the field app:**
+
+- Phones need release 18.3 of the field app for the preset. On an older app, the **FILTER** screen still shows the subject type list, and the cards count every subject type.
+- The Subject Type filter starts with the preset.
+- The **FILTER** screen leaves out the subject type list. The user cannot choose another subject type. With a preset program, the screen also leaves out the program list.
+- With a preset subject type, the Subject Type filter shows that subject type's programs, then visit types. The user can still pick a program or a visit type.
+- With a preset program as well, the filter shows only that program's visit types.
+- The preset is always in force. Even before the user opens the filter, the standard cards listed under [Standard Report Card Type Filters](#standard-report-card-type-filters) count only the preset subject type.
+- At present, with a preset program, the Recent visits card still counts general visits of the preset subject type.
+- A user who is not allowed to view the preset program sees 0 on Total, Recent registrations and Recent enrolments. As above, Recent visits still counts general visits.
+- Once the user taps **Apply**, the bar of applied filters shows the preset.
+- The clear icon on the bar puts the Subject Type filter back on the preset. It also clears the dashboard's other filters.
+- If the preset is changed, each user's saved filters on that dashboard reset to the new preset at their next sync.
+
+{/* upload `subject-type-filter-preset-client.png` — Android FILTER screen of a dashboard whose Subject Type filter has a preset subject type: no subject type list, with the "Programs" and "Choose Visit Type" lists shown */}
+
+**The Subject Type setting on other filters:**
+
+- A filter such as Registration Date has its own **Subject Type** setting. It decides when that filter shows on the phone.
+- The filter shows only once that subject type is chosen in the Subject Type filter.
+- The preset decides what the Subject Type filter starts with.
+- On a dashboard with a preset, a filter set for the preset subject type shows straight away.
+- A filter set for another subject type does not show.
+
 #### For the filters to be applied to the cards in the dashboard, the code for the cards will need to handle the filters.
 
 Sample Code for handling filters in report card:
@@ -597,6 +674,8 @@ After saving the dashboard sync the field app, and from the bottom "More" tab cl
 
 
 Clicking any card will take the user to the subject listing page, which will display all the subject names returned by the card query. For custom data cards with the "View subject profile" action, if only one subject is returned, the app directly opens the subject's profile. For cards with the "Do visit" action, clicking opens the encounter form directly (for single subject) or shows the list with encounter type rows below each subject. For cards with the "Mark attendance" action, tapping a class opens the attendance sheet for that class and attendance type for today (Android only — see the _Mark Attendance Action_ section above).
+
+From release 18.3, tapping a custom data card with the "Open dashboard" action opens the dashboard chosen on that card (see [Open Dashboard Action](#open-dashboard-action)).
 
 
 <Image src="https://files.readme.io/f5ba147ebded65488509282dc6a8681a3a9f7292833c5f396f4202d8dfcebe7c-directencounterform.gif" align="center" width="200px" />
@@ -1277,7 +1356,9 @@ HTML template receives:
 ```
 
 Return `deferredDataFunction` instead of `data` when building the rows is expensive. The platform
-calls it only when the card is opened, so the dashboard tile does not pay for it.
+calls it only when the card is opened, so the dashboard tile does not pay for it. On a Full page
+dashboard the page is the dashboard, so it runs every time the page recalculates, app open
+included. See [Full page dashboards](#full-page-dashboards).
 
 ```
 {
@@ -1495,11 +1576,289 @@ empty `data` object.
 </div>
 ```
 
+#### Page commands
+
+From release 18.3, a row on the card's page can open the record it is about, edit it, or start a visit. On a card whose action is **Open dashboard**, a link can open that dashboard for a location. The field app gives the page an object named `avni` that holds these commands.
+
+**The commands:**
+
+| Command | What it opens |
+|---|---|
+| `avni.openSubject(subjectUUID, tab)` | The subject's dashboard. Set `tab` to `'profile'`, `'program'` or `'general'` to open the **Profile**, **Programs** or **General** tab. Leave `tab` out to open the subject as a tap on a search result does. |
+| `avni.openEnrolment(enrolmentUUID)` | The subject's **Programs** tab, on that enrolment. |
+| `avni.openVisit(visitUUID)` | A general visit opens the subject's **General** tab. A program visit opens the **Programs** tab, on its enrolment. |
+| `avni.editRegistration(subjectUUID)` | The registration form, to edit. |
+| `avni.editEnrolment(enrolmentUUID)` | The enrolment form, to edit. |
+| `avni.editExit(enrolmentUUID)` | The program exit form, to edit. It works only for an enrolment that has exited. |
+| `avni.editVisit(visitUUID)` | The visit form, to edit. A cancelled visit opens its cancel form. A planned visit opens to be done. |
+| `avni.startVisit(subjectUUID, visitTypeUUID, enrolmentUUID)` | A visit of that type. If one of that type is planned, the one due first opens. Otherwise a new visit opens. For a program visit, pass the enrolment, which must be active. |
+| `avni.runCardAction({locationUUID: locationUUID})` | The card's dashboard, with that location in its location filter. It works only on a card whose action is **Open dashboard**. See the View Performance example below. |
+
+**What the app checks:** the record commands open nothing until these checks pass.
+
+- The record must be on the phone.
+- The user must be able to view the subject's type. A user who cannot view it does not have its records on the phone, so the command shows "This record is not on this phone".
+- An edit needs the same right as the **Edit** button on the subject's dashboard.
+- An edit runs the form's [edit form rule](/docs/writing-rules#17-edit-form-rule). If the rule refuses, its message shows and nothing opens.
+- A visit whose visit type is [immutable](/docs/encounter-type#immutable-encounter-type) cannot be edited.
+- Starting a visit needs the right to perform that visit type.
+- Starting a visit does not run the visit type's [eligibility check rule](/docs/writing-rules#8-encounter-eligibility-check-rule).
+
+**Messages:** when a command cannot run, a short message shows and the card page stays.
+
+| Message | When it shows |
+|---|---|
+| This record is not on this phone | The record is not on the phone, or it was deleted. For `runCardAction`, the location is not on the phone. |
+| You do not have permission to do this | The user does not have the right the command needs. It also shows when an edit rule refuses without a message of its own. |
+| This action is not available for this record | The record does not allow the command. Examples: an unknown tab name, an exit edit on an enrolment that has not exited, an edit of an immutable visit, or a visit started on an enrolment that has exited. |
+| The edit rule's own message | The form's edit rule refuses the edit. |
+| This dashboard is not available to you | For `runCardAction`, the card's dashboard is not in the user's groups. |
+
+**Coming back to the card page:**
+
+- Back from a screen a command opened returns to the card page.
+- Saving an edit or a new visit returns to the card page. A form of several pages returns there after its last page.
+- The card page then runs its data rule again, so its rows show the saved values.
+
+**Sample data rule and row.** The data rule puts each record's id on its row. The template calls a command from the row's `onclick`. The template sits inside backticks, so it builds the rows with `+` and has no backticks of its own.
+
+```javascript
+'use strict';
+({params, imports}) => {
+    const households = params.db.objects('Individual')
+        .filtered("voided = false AND subjectType.name = 'Household'")
+        .filter(() => true);
+    const rows = households.map(household => ({
+        name: household.nameString,
+        subjectUUID: household.uuid,
+    }));
+    return {primaryValue: String(rows.length), data: {rows: rows}};
+};
+```
+
+```html
+<style>
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 14px 6px; border-bottom: 1px solid #e0e0e0; }
+</style>
+
+<table>
+    ${data.rows.map(row =>
+        '<tr onclick="avni.openSubject(\'' + row.subjectUUID + '\', \'general\')">'
+        + '<td>' + row.name + '</td>'
+        + '</tr>'
+    ).join('')}
+</table>
+```
+
+A tap on a household's row opens its **General** tab.
+
+**Example: a View Performance link for each cluster.** A supervisor's home dashboard has a Custom Design Card, "My Clusters". Its page lists the clusters on the phone, with a **View Performance** link on each row. The card's action is **Open dashboard**, and its dashboard is "Cluster Performance", which has a location filter. A tap on a cluster's link opens Cluster Performance for that cluster.
+
+Data rule:
+
+```javascript
+'use strict';
+({params, imports}) => {
+    // Every location on the phone, and the location each one sits under.
+    const locations = params.db.objects('AddressLevel').filtered('voided = false').filter(() => true);
+    const parentOf = {};
+    locations.forEach(location => {
+        if (location.parentUuid) parentOf[location.uuid] = location.parentUuid;
+    });
+
+    // The number of people registered in each cluster's villages.
+    const people = {};
+    params.db.objects('Individual').filtered("voided = false AND subjectType.name = 'Person'").filter(() => true)
+        .forEach(person => {
+            const village = person.lowestAddressLevel;
+            const cluster = village && parentOf[village.uuid];
+            if (cluster) people[cluster] = (people[cluster] || 0) + 1;
+        });
+
+    // One row per cluster, with the cluster's id for its link.
+    const rows = locations
+        .filter(location => location.type === 'Cluster')
+        .map(location => ({locationUUID: location.uuid, name: location.name, people: people[location.uuid] || 0}))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    return {primaryValue: String(rows.length), secondaryValue: 'Clusters', data: {rows: rows}};
+};
+```
+
+HTML template:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body { font-family: sans-serif; margin: 0; padding: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 6px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+    a.view { display: inline-block; padding: 8px 12px; border-radius: 18px; background: #0b57d0;
+             color: #ffffff; text-decoration: none; font-weight: 600; white-space: nowrap; }
+</style>
+
+<h2>My Clusters</h2>
+<table>
+    <tr><th>Cluster</th><th>People</th><th></th></tr>
+    ${data.rows.map(row => '<tr><td>' + row.name + '</td><td>' + row.people + '</td>'
+        + '<td><a href="#" class="view" data-location="' + row.locationUUID + '">View Performance</a></td></tr>').join('')}
+</table>
+
+<script>
+    document.querySelectorAll('a.view').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            avni.runCardAction({locationUUID: link.getAttribute('data-location')});
+        });
+    });
+</script>
+```
+
+The script runs as the page loads, and only adds the click listeners. It uses `avni` inside them, when the user taps.
+
+On a tap:
+
+- The card's dashboard opens, with the cluster in its location filter.
+- Other filters the two dashboards share carry over, as they do for a tile. The link's location replaces any location carried over.
+- Back returns to the card page. Back again returns to the dashboard underneath, as the user left it.
+- A location outside the user's catchment is not on the phone. Its link shows "This record is not on this phone", and nothing opens.
+- A location above the user's catchment is not on the phone either, so its link shows the same message.
+- If the card's dashboard has no location filter, it opens without the location.
+- On a card whose action is not **Open dashboard**, `runCardAction` does nothing.
+
+Point the card at a dashboard other than the one it sits on. When a card opens its own dashboard, the link's location stays as that dashboard's saved location.
+
+**Rules for the page:**
+
+- Call a command only from something the user does on the page: a tap, in an `onclick` or a click listener, or a pick in a dropdown, in its `change` listener.
+- A command also runs up to 1.5 seconds after that tap or pick, for example after a short animation. A command called later, after a swipe or a long press, before the user has touched the page, or from the page's own timer does nothing. The field app's log says why.
+- Do not check for `avni` while the page loads. The `avni` object can arrive after the page's own scripts have run.
+- Do not define anything named `avni` on the page. A page that has its own `avni` keeps it and gets no commands.
+- In an `onclick`, put each id in quotes, as the first sample does.
+- For a general visit, leave out the third argument of `startVisit`.
+- Spell the key for `runCardAction` exactly as `locationUUID`.
+
+#### Full page dashboards
+
+From release 18.3, a dashboard can show one Custom Design Card's page as the whole dashboard. An organisation can use it for its own home page, with its logo and the user's work for the day.
+
+**Where to set it.** In App Designer, open the dashboard and set its section's view type to **Full page**. The dashboard must have one section, and that section must hold one Custom Design Card. App Designer does not save a Full page dashboard that breaks this rule, and shows one of these messages:
+
+- "A Full page dashboard has only one section. Remove the other sections, or choose Tile or List."
+- "Full page needs exactly one Custom Design Card in its section."
+
+A Full page section still needs a name, as every section does. The name does not show on the phone. To make the page a user's Home, give the dashboard to the user's group as its primary dashboard.
+
+**What the field user sees.** The card's page fills the dashboard under the app's header and the dashboard's filters. It runs edge to edge and ends above the bottom bar. There is no tile and no section heading. The tile values the rule returns are not used on a full page: its number, subtitle, name and colours show nowhere.
+
+**When the page recalculates.** The card's rule runs again and the page is redrawn:
+
+- the first time the dashboard opens after the app starts;
+- when a filter is changed or cleared;
+- when the user presses refresh;
+- when the user comes back after saving a record started from one of the page's rows.
+
+With auto-refresh on, the page also recalculates on a tab change, and when the user comes back from a dashboard opened from the page. With auto-refresh off, the earlier page stays until one of the four cases above happens. It shows at once with the time it was calculated, and the rule does not run. One more case recalculates with auto-refresh off: a save made on a dashboard that the page's link opened. Coming back from it recalculates the page.
+
+Coming back from a row command without saving does not recalculate the page. This holds on a full page and on the card's own screen.
+
+When a sync brings a changed HTML file for the card, the page recalculates once after the sync and shows the new design.
+
+While the page recalculates, the earlier page stays on screen with a thin bar along its top edge. A screen reader announces "Updating…". On the first open there is no earlier page, so the page area shows "Loading…".
+
+**A slow rule now costs time on Home.** A rule that returns `deferredDataFunction` for its slow part runs that part every time a full page recalculates, app open included. The app does not respond while the rule runs. Keep the rule fast on the largest catchment the dashboard will see.
+
+**Load page.** If the app was closed while the page's rule was running, the next open does not run the rule again. The page area says "This page did not finish loading last time." and shows a **Load page** button. The rule runs when the user taps it. A rule that never finishes cannot lock the user out of Home.
+
+**Errors.** If the rule fails, the page area shows the error, as the card's own screen does. If the page's file has not reached the phone and the phone is offline, the page area says "This page has not downloaded yet. Sync to get it."
+
+**Links.** A link on the page opens the card's target dashboard for a location, as on the card's own screen. See [Page commands](#page-commands). Back returns to the full page, on the same tab.
+
+**Older apps.** An app older than 18.3 shows the dashboard as a list with one row, under the section's name. A tap on the row opens the page, as before.
+
+**Images.** An image drawn inside the HTML file, as a data URI, shows offline. An image loaded from a website needs a network, and is blank without one. Keep an embedded logo under about 500 KB. A simple logo as SVG is under 1 KB. The page is filled again on every recalculation, so a large image slows each one.
+
+**Sample: a home page with the organisation's logo behind it**
+
+The logo in this sample is a made-up mark, drawn as SVG inside the file. Replace the `--logo` value with your own logo as a data URI, and `--brand` with your colour. `--watermark` sets how faint the logo behind the page is. The whole HTML file is 2.2 KB.
+
+**Data rule:**
+
+```javascript
+'use strict';
+({params, imports}) => \{
+    const moment = imports.moment;
+    const today = moment().startOf('day').toDate();
+    const tomorrow = moment().add(1, 'day').startOf('day').toDate();
+    // Names go into the page as HTML, so take out the characters that would break it.
+    const clean = (text) => String(text).replace(/[<>&"'`$\\]/g, '');
+    const visits = params.db.objects('ProgramEncounter')
+        .filtered('voided = false AND encounterDateTime = null AND cancelDateTime = null AND earliestVisitDateTime >= $0 AND earliestVisitDateTime < $1', today, tomorrow);
+    const rows = visits.slice(0, 20).map(visit => ({
+        visitUUID: visit.uuid,
+        name: clean(visit.programEnrolment.individual.nameString),
+        type: clean(visit.encounterType.name),
+    }));
+    return {
+        data: { date: moment().format('dddd, D MMMM'), total: visits.length, rows: rows },
+    };
+\}
+```
+
+**Translations on the card:**
+
+| Translation Key | Default (English) Value |
+|---|---|
+| `due_today` | `{n} visits due today` |
+| `start_visit` | Start |
+
+**HTML template:**
+
+```html
+<style>
+  /* Change these three to rebrand. The logo is drawn inside the file, so it shows offline. */
+  :root {
+    --brand: #1F5FAD;
+    --watermark: 0.05;   /* 0 turns the logo behind the page off */
+    --logo: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiI+PGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDYiIGZpbGw9IiMxRjVGQUQiLz48dGV4dCB4PSI0OCIgeT0iNjEiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjM4IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIj5BQjwvdGV4dD48L3N2Zz4=");
+  }
+  body { margin: 0; font-family: sans-serif; font-size: 15px; color: #1f2933; background: #ffffff; }
+  .wm { position: fixed; right: 12px; bottom: 12px; width: 46vw; max-width: 220px; aspect-ratio: 1;
+        background: var(--logo) center / contain no-repeat; opacity: var(--watermark); z-index: -1; pointer-events: none; }
+  .page { padding: 0 14px 36px; }
+  .head { display: flex; align-items: center; gap: 12px; padding: 14px 0 12px; border-bottom: 3px solid var(--brand); }
+  .logo { flex: 0 0 auto; width: 40px; height: 40px; background: var(--logo) center / contain no-repeat; }
+  h1 { margin: 0; font-size: 19px; color: var(--brand); }
+  .row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #e4e9ef; }
+  .who { flex: 1; min-width: 0; }
+  .who small { display: block; color: #4b5866; }
+  .go { min-height: 44px; padding: 8px 16px; border: 0; border-radius: 22px; background: var(--brand); color: #ffffff; font: inherit; }
+</style>
+<div class="wm" aria-hidden="true"></div>
+<div class="page">
+  <div class="head"><div class="logo" aria-hidden="true"></div><h1>${data.date}</h1></div>
+  <p>${translations.due_today.replace('{n}', data.total)}</p>
+  ${data.rows.map(row =>
+    '<div class="row"><div class="who">' + row.name + '<small>' + row.type + '</small></div>'
+    + '<button class="go" data-visit="' + row.visitUUID + '">' + translations.start_visit + '</button></div>'
+  ).join('')}
+</div>
+<script>
+  document.addEventListener('click', function (event) {
+    var visit = event.target.getAttribute && event.target.getAttribute('data-visit');
+    if (visit && typeof avni !== 'undefined') { avni.editVisit(visit); }
+  });
+</script>
+```
+
+A tap on **Start** opens the visit, because `avni.editVisit` opens a planned visit to be done. See [Page commands](#page-commands).
+
 #### Things to Avoid
 
 - **Backticks** — the HTML is wrapped in backticks. A stray \`\`\` in your HTML will break evaluation. Use `&#96;` for backtick characters.
 - **Backtick strings inside scripts** — inside `<script>` tags, build strings with `+` rather than backtick template literals, which clash with the outer template. `${...}` itself is fine inside a script and is how data and translations reach it: `${JSON.stringify(data.rows)}`, `${JSON.stringify(translations["KEY"])}`.
-- **Heavy computations in the data rule** — the rule runs every time the dashboard loads, once per card. Keep it fast with indexed queries, and move expensive row-building into `deferredDataFunction`, which only runs when the card is opened.
+- **Heavy computations in the data rule** — the rule runs every time the dashboard loads, once per card. Keep it fast with indexed queries, and move expensive row-building into `deferredDataFunction`, which only runs when the card is opened. On a Full page dashboard it runs on every recalculation of the page.
 - **Hard-coded English in the template** — a string typed straight into the HTML stays English in every language. Put it behind `${translations.KEY}`. The same goes for a string the script writes: `'Total Approved: Rs ' + total` stays English. Put it behind `tr("Total Approved")` (see [Text the card's script writes](#translations)).
 
 #### Complete Example
